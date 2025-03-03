@@ -37,6 +37,11 @@ app.UseAuthorization();
 
 app.UseSession();
 
+// ✅ Add area support before default routing
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Index}/{id?}");
