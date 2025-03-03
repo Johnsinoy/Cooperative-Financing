@@ -6,6 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// ✅ Add services required for session
+builder.Services.AddDistributedMemoryCache(); // Required for session storage
+builder.Services.AddSession(); // Adds session services
 
 // ✅ Load Connection String
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -32,8 +35,10 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseSession();
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Index}/{id?}");
 
 app.Run();
