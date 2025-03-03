@@ -1,0 +1,32 @@
+﻿@model CooperativeFinancing.Models.ViewModels.LoginViewModel
+
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="login-box">
+        <h2 class="text-center">COOPERATIVE FINANCING</h2>
+
+        <form method="post">
+            <div class="mb-3 text-center">
+                <label for="Username" class="form-label">Username:</label>
+                <input type="text" asp-for="Username" id="Username" class="form-control" placeholder="Enter your username" required>
+            </div>
+
+            <div class="mb-3 text-center">
+                <label for="Password" class="form-label">Password:</label>
+                <input type="password" asp-for="Password" id="Password" class="form-control" placeholder="Enter your password" required>
+            </div>
+
+            @if (Model != null && !string.IsNullOrEmpty(Model.errorMessage))
+            {
+                <p class="text-danger text-center">@Model.errorMessage</p>
+            }
+
+            <div class="text-center">
+                <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-custom mt-3">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
