@@ -25,7 +25,8 @@ namespace CooperativeFinancing.Controllers.ViewModel
             if (model.Username == "admin" && model.Password == "admin")
             {
                 HttpContext.Session.SetString("UserLoggedIn", "true"); // ✅ Store session on login
-                return RedirectToAction("Index", "Home");
+                                                                     
+                return RedirectToAction("Index", "Admin", new { area = "Admin" }); // ✅ Redirect to the Admin area
             }
             model.errorMessage = "Invalid username or password";
             return View(model);
