@@ -1,0 +1,51 @@
+/* Ensure dropdown items are clickable */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-btn {
+    background: none;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    padding: 15px 20px;
+    letter-spacing: 1px;
+}
+
+/* Dropdown Content (Initially Hidden) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: white;
+    min-width: 200px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* ? Ensures the dropdown is on top */
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+    /* Ensure dropdown items are clickable */
+    .dropdown-content a {
+        display: block; /* ? Ensures full width clickable */
+        color: black;
+        padding: 10px 15px;
+        text-decoration: none;
+        font-size: 16px;
+        white-space: nowrap;
+        cursor: pointer; /* ? Ensures the pointer hand appears */
+    }
+
+        /* Hover Effect */
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+/* Show Dropdown on Hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+

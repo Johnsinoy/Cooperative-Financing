@@ -2,29 +2,28 @@
     ViewData["Title"] = "Admin Dashboard";
 }
 
+<!-- Link External CSS -->
 <link rel="stylesheet" href="~/css/admin-dashboard.css" asp-append-version="true" />
 
+<!-- Include Dropdown for Administrative -->
+@await Html.PartialAsync("_AdminHeader")
 
-<div class="header">
-    <span>Dashboard</span>
-    <span>Administrative</span>
-    <span>Reports</span>
-    <span>Cooperative Financing</span>
-</div>
 
+<!-- Dashboard Layout -->
 <div class="dashboard-container">
     <!-- Sidebar -->
-    <div class="sidebar">
+    <aside class="sidebar">
         <button class="active">HOME</button>
         <button>MEMBER</button>
         <button>LOANS</button>
         <button>PAYMENTS</button>
         <button>USER</button>
-    </div>
+    </aside>
+
     <!-- Main Content -->
-    <div class="main-content">
+    <main class="main-content">
         <h1 class="welcome-text">Welcome to the Admin Dashboard</h1>
-        <div class="grid-content">
+        <section class="grid-content">
             <div class="grid-item">MEMBER</div>
             <div class="grid-item">CONTRIBUTION</div>
             <div class="grid-item">MONEY ON HAND</div>
@@ -34,6 +33,6 @@
             <div class="grid-item">REPORTS</div>
             <div class="grid-item">ACTIVE LOANS</div>
             <div class="grid-item">APPROVED LOAN</div>
-        </div>
-    </div>
+        </section>
+    </main>
 </div>
