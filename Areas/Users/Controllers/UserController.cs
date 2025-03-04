@@ -2,7 +2,8 @@
 
 namespace CooperativeFinancing.Areas.Users.Controllers
 {
-    public class UsersController : Controller
+    [Area("Users")]
+    public class UserController : Controller
     {
         public IActionResult Index()
         {
