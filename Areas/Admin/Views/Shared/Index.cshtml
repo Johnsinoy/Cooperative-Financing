@@ -2,4 +2,38 @@
     ViewData["Title"] = "Admin Dashboard";
 }
 
-<h2>Welcome to the Admin Dashboard</h2>
+<link rel="stylesheet" href="~/css/admin-dashboard.css" asp-append-version="true" />
+
+
+<div class="header">
+    <span>Dashboard</span>
+    <span>Administrative</span>
+    <span>Reports</span>
+    <span>Cooperative Financing</span>
+</div>
+
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <button class="active">HOME</button>
+        <button>MEMBER</button>
+        <button>LOANS</button>
+        <button>PAYMENTS</button>
+        <button>USER</button>
+    </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="welcome-text">Welcome to the Admin Dashboard</h1>
+        <div class="grid-content">
+            <div class="grid-item">MEMBER</div>
+            <div class="grid-item">CONTRIBUTION</div>
+            <div class="grid-item">MONEY ON HAND</div>
+            <div class="grid-item">PAYMENT RECEIVED</div>
+            <div class="grid-item">BALANCE TO COLLECT</div>
+            <div class="grid-item">LEND MONEY</div>
+            <div class="grid-item">REPORTS</div>
+            <div class="grid-item">ACTIVE LOANS</div>
+            <div class="grid-item">APPROVED LOAN</div>
+        </div>
+    </div>
+</div>
