@@ -16,6 +16,11 @@
     flex-wrap: wrap;
     text-align: center;
 }
+.header .active {
+    text-decoration-line:underline;
+    color: white;
+    font-weight: bold;
+}
 
 .header span {
     transition: all 0.3s ease-in-out;
