@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CooperativeFinancing.Migrations
 {
     [DbContext(typeof(CooperativeContext))]
-    [Migration("20250303003554_Initial")]
+    [Migration("20250304053048_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -126,7 +126,7 @@ namespace CooperativeFinancing.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("First_Name")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("varchar(45)");
@@ -134,7 +134,7 @@ namespace CooperativeFinancing.Migrations
                     b.Property<DateTime>("JoinDate")
                         .HasColumnType("date");
 
-                    b.Property<string>("Last_Name")
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("varchar(45)");
@@ -164,9 +164,9 @@ namespace CooperativeFinancing.Migrations
                             City = "Springfield",
                             Contribution = 600,
                             Email = "john.doe@example.com",
-                            First_Name = "John",
+                            FirstName = "John",
                             JoinDate = new DateTime(2023, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Last_Name = "Doe",
+                            LastName = "Doe",
                             Phone = "123-456-7890",
                             Province = "Illinois",
                             Street = "123 Elm St"
@@ -177,9 +177,9 @@ namespace CooperativeFinancing.Migrations
                             City = "Los Angeles",
                             Contribution = 500,
                             Email = "jane.smith@example.com",
-                            First_Name = "Jane",
+                            FirstName = "Jane",
                             JoinDate = new DateTime(2023, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Last_Name = "Smith",
+                            LastName = "Smith",
                             Phone = "987-654-3210",
                             Province = "California",
                             Street = "456 Oak Ave"

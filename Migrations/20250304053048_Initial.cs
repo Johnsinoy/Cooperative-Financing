@@ -49,9 +49,9 @@ namespace CooperativeFinancing.Migrations
                 {
                     Member_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    First_Name = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
+                    FirstName = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Last_Name = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
+                    LastName = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Street = table.Column<string>(type: "varchar(45)", maxLength: 45, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -119,7 +119,7 @@ namespace CooperativeFinancing.Migrations
 
             migrationBuilder.InsertData(
                 table: "CooperativeMembers",
-                columns: new[] { "Member_Id", "City", "Contribution", "Email", "First_Name", "JoinDate", "Last_Name", "Phone", "Province", "Street" },
+                columns: new[] { "Member_Id", "City", "Contribution", "Email", "FirstName", "JoinDate", "LastName", "Phone", "Province", "Street" },
                 values: new object[,]
                 {
                     { 1, "Springfield", 600, "john.doe@example.com", "John", new DateTime(2023, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Doe", "123-456-7890", "Illinois", "123 Elm St" },
