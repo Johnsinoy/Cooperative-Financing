@@ -1,7 +1,10 @@
-﻿<div class="dropdown">
+﻿@{
+    var addMemberUrl = Url.Action("AddMemberPage", "Admin", new { area = "Admin" });
+}
+<div class="dropdown">
     <button class="dropdown-btn">ADMINISTRATIVE</button>
     <div class="dropdown-content">
-        <a href="#">Add a Member</a>
+        <a href="@addMemberUrl" class="nav-button">Add a Member</a>
         <a href="#">Make a Payment</a>
         <a href="#">File Login Details</a>
         <a href="#">Loan Application</a>

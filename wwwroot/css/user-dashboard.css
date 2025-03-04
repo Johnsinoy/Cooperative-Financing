@@ -1,0 +1,118 @@
+/* Dashboard Layout */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    background: linear-gradient(to right, #00bcd4, #fdd835);
+    padding: 20px;
+    align-items: flex-start;
+}
+
+/* Sidebar */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 250px;
+    flex-shrink: 0;
+    height: 100%;
+}
+
+    .sidebar button {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        text-align: center;
+        cursor: pointer;
+        background: white;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .sidebar button:hover {
+            background: #ddd;
+        }
+
+    .sidebar .active {
+        background: #00796b;
+        color: white;
+        font-weight: bold;
+    }
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-left: 40px;
+    margin-top: 20px;
+}
+
+/* Welcome Text */
+.welcome-text {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.member-name {
+    font-weight: normal;
+    color: #333;
+}
+
+/* Profile Section */
+.profile-section {
+    background: #606060;
+    color: white;
+    padding: 50px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    width: 80%;
+    max-width: 800px;
+    margin-top: 30px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .dashboard-container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .sidebar {
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+        padding-bottom: 10px;
+    }
+
+        .sidebar button {
+            width: auto;
+            flex: 1;
+            padding: 12px;
+            font-size: 14px;
+        }
+
+    .main-content {
+        align-items: center;
+        padding-left: 0;
+    }
+
+    .profile-section {
+        width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-section {
+        width: 100%;
+    }
+}

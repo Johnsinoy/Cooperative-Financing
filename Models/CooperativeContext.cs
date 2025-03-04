@@ -18,8 +18,8 @@ namespace CooperativeFinancing.Models
 
             // Seeding CooperativeMembers
             modelBuilder.Entity<CooperativeMembers>().HasData(
-                new CooperativeMembers { Member_Id = 1, First_Name = "John", Last_Name = "Doe", Street = "123 Elm St", City = "Springfield", Province = "Illinois", Phone = "123-456-7890", Email = "john.doe@example.com", JoinDate = new DateTime(2023, 5, 15), Contribution = 600 },
-                new CooperativeMembers { Member_Id = 2, First_Name = "Jane", Last_Name = "Smith", Street = "456 Oak Ave", City = "Los Angeles", Province = "California", Phone = "987-654-3210", Email = "jane.smith@example.com", JoinDate = new DateTime(2023, 7, 22), Contribution = 500 }
+                new CooperativeMembers { Member_Id = 1, FirstName = "John", LastName = "Doe", Street = "123 Elm St", City = "Springfield", Province = "Illinois", Phone = "123-456-7890", Email = "john.doe@example.com", JoinDate = new DateTime(2023, 5, 15), Contribution = 600 },
+                new CooperativeMembers { Member_Id = 2, FirstName = "Jane", LastName = "Smith", Street = "456 Oak Ave", City = "Los Angeles", Province = "California", Phone = "987-654-3210", Email = "jane.smith@example.com", JoinDate = new DateTime(2023, 7, 22), Contribution = 500 }
             );
 
             // Seeding Loans

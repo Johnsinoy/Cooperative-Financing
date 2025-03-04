@@ -1,10 +1,10 @@
-/* Dropdown Container */
+/* Ensure dropdown is positioned correctly */
 .dropdown {
     position: relative;
     display: inline-block;
 }
 
-/* Dropdown Button (Matches Header Style) */
+/* Style for the Administrative button */
 .dropdown-btn {
     background: none;
     color: white;
@@ -17,40 +17,37 @@
     letter-spacing: 1px;
 }
 
-    /* Hover Effect */
-    .dropdown-btn:hover {
-        text-decoration: underline;
-    }
-
 /* Dropdown Content (Initially Hidden) */
 .dropdown-content {
-    display: none;
+    display: none; /* Hide dropdown by default */
     position: absolute;
+    top: 100%; /* Ensure it appears below the button */
+    left: 0;
     background: white;
     min-width: 200px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     border-radius: 5px;
     overflow: hidden;
-    padding: 10px 0;
 }
 
-    /* Dropdown Links */
+    /* Ensure dropdown items are clickable */
     .dropdown-content a {
+        display: block;
         color: black;
         padding: 10px 15px;
         text-decoration: none;
-        display: block;
         font-size: 16px;
-        white-space: nowrap; /* Prevents text wrapping */
+        white-space: nowrap;
+        cursor: pointer;
     }
 
-/* Show Dropdown on Hover */
+        /* Hover Effect */
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+/* Show dropdown when hovering over the button or dropdown itself */
 .dropdown:hover .dropdown-content {
     display: block;
-}
-
-/* Hover Effect */
-.dropdown-content a:hover {
-    background-color: #ddd;
 }

@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Member Dashboard";
+}
+
+<!-- Link to External CSS -->
+<link rel="stylesheet" href="~/css/user-dashboard.css" asp-append-version="true" />
+
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <button class="active">HOME</button>
+        <button>LOANS</button>
+        <button>PAYMENTS</button>
+        <button>Loan Calculator</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="welcome-text">WELCOME, <span class="member-name">"Member Name"</span></h1>
+        <div class="profile-section">
+            <p class="profile-text">Member Profile Details</p>
+        </div>
+    </div>
+</div>
