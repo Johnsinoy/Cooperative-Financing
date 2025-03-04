@@ -22,12 +22,16 @@ namespace CooperativeFinancing.Controllers.ViewModel
         public IActionResult Index(LoginViewModel model)
         {
             if (model == null) model = new LoginViewModel(); // Prevent null reference
-            if (model.Username == "admin" && model.Password == "admin")
+            if ((model.Username == "admin" && model.Password == "admin") || (model.Username == "user" && model.Password == "user"))
             {
                 HttpContext.Session.SetString("UserLoggedIn", "true"); // ✅ Store session on login
-                                                                     
-                return RedirectToAction("Index", "Admin", new { area = "Admin" }); // ✅ Redirect to the Admin area
+
+                string area = model.Username == "admin" ? "Admin" : "Users"; // ✅ Correct area
+                string controller = model.Username == "admin" ? "Admin" : "User"; // ✅ Match controller names
+
+                return RedirectToAction("Index", controller, new { area }); // ✅ Redirect to the correct controller within the area
             }
+
             model.errorMessage = "Invalid username or password";
             return View(model);
         }
