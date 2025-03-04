@@ -1,9 +1,10 @@
-/* Ensure dropdown items are clickable */
+/* Ensure dropdown is positioned correctly */
 .dropdown {
     position: relative;
     display: inline-block;
 }
 
+/* Style for the Administrative button */
 .dropdown-btn {
     background: none;
     color: white;
@@ -18,25 +19,27 @@
 
 /* Dropdown Content (Initially Hidden) */
 .dropdown-content {
-    display: none;
+    display: none; /* Hide dropdown by default */
     position: absolute;
+    top: 100%; /* Ensure it appears below the button */
+    left: 0;
     background: white;
     min-width: 200px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000; /* ? Ensures the dropdown is on top */
+    z-index: 1000;
     border-radius: 5px;
     overflow: hidden;
 }
 
     /* Ensure dropdown items are clickable */
     .dropdown-content a {
-        display: block; /* ? Ensures full width clickable */
+        display: block;
         color: black;
         padding: 10px 15px;
         text-decoration: none;
         font-size: 16px;
         white-space: nowrap;
-        cursor: pointer; /* ? Ensures the pointer hand appears */
+        cursor: pointer;
     }
 
         /* Hover Effect */
@@ -44,8 +47,7 @@
             background-color: #ddd;
         }
 
-/* Show Dropdown on Hover */
+/* Show dropdown when hovering over the button or dropdown itself */
 .dropdown:hover .dropdown-content {
     display: block;
 }
-
