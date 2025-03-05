@@ -56,5 +56,171 @@ namespace CooperativeFinancing.Areas.Admin.Controllers
                 return View("AddMemberPage", member);
             }
         }
+
+        [HttpGet]
+        public IActionResult MemberList()
+        {
+            var members = _context.CooperativeMembers.ToList();
+            return View(members);
+        }
+
+        [HttpGet]
+        public IActionResult SearchMember(string FirstName, string LastName, string City, string Province, string Street, string PhoneNumber, string Email)
+        {
+            var members = _context.CooperativeMembers.AsQueryable();
+
+            if (!string.IsNullOrEmpty(FirstName))
+                members = members.Where(m => m.FirstName.Contains(FirstName));
+
+            if (!string.IsNullOrEmpty(LastName))
+                members = members.Where(m => m.LastName.Contains(LastName));
+
+            if (!string.IsNullOrEmpty(City))
+                members = members.Where(m => m.City.Contains(City));
+
+            if (!string.IsNullOrEmpty(Province))
+                members = members.Where(m => m.Province.Contains(Province));
+
+            if (!string.IsNullOrEmpty(Street))
+                members = members.Where(m => m.Street.Contains(Street));
+
+            if (!string.IsNullOrEmpty(PhoneNumber))
+                members = members.Where(m => m.Phone.Contains(PhoneNumber));
+
+            if (!string.IsNullOrEmpty(Email))
+                members = members.Where(m => m.Email.Contains(Email));
+
+            return PartialView("_MemberTable", members.ToList());
+        }
+
+        [HttpPost]
+        public IActionResult DeleteMember(int id)
+        {
+            var member = _context.CooperativeMembers.Find(id);
+            if (member == null)
+            {
+                return NotFound();
+            }
+
+            _context.CooperativeMembers.Remove(member);
+            _context.SaveChanges();
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public IActionResult UpdateMember([FromBody] CooperativeMembers updatedMember)
+        {
+            Console.WriteLine("🟢 UpdateMember method triggered!"); // Debugging Step
+
+            var member = _context.CooperativeMembers.Find(updatedMember.Member_Id);
+
+            if (member == null)
+            {
+                Console.WriteLine("🔴 Member not found in database.");
+                return Json(new { success = false, message = "Member not found." });
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+                return Json(new { success = false, message = "Validation failed.", errors });
+            }
+
+            Console.WriteLine($"🟢 Updating Member: {member.FirstName} {member.LastName}");
+
+            // Update fields
+            member.FirstName = updatedMember.FirstName;
+            member.LastName = updatedMember.LastName;
+            member.Street = updatedMember.Street;
+            member.City = updatedMember.City;
+            member.Province = updatedMember.Province;
+            member.Email = updatedMember.Email;
+            member.Phone = updatedMember.Phone;
+            member.JoinDate = updatedMember.JoinDate;
+            member.Contribution = updatedMember.Contribution;
+
+            try
+            {
+                int changes = _context.SaveChanges(); // Capture number of changes
+                if (changes > 0)
+                {
+                    Console.WriteLine("🟢 Member successfully updated.");
+                    return Json(new { success = true, message = "Member updated successfully!" });
+                }
+                else
+                {
+                    Console.WriteLine("🔴 No changes detected in database.");
+                    return Json(new { success = false, message = "No changes detected." });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"🔴 SERVER ERROR: {ex.Message}");
+                return Json(new { success = false, message = "An error occurred.", error = ex.Message });
+            }
+        } 
+
+        [HttpGet]
+        public IActionResult GetMember(int id)
+        {
+            var member = _context.CooperativeMembers.Find(id);
+            if (member == null)
+            {
+                return NotFound();
+            }
+
+            return Json(new
+            {
+                memberID = member.Member_Id,
+                firstName = member.FirstName,
+                lastName = member.LastName,
+                street = member.Street,
+                city = member.City,
+                province = member.Province,
+                email = member.Email,
+                phone = member.Phone,
+                joinDate = member.JoinDate.ToString("yyyy-MM-dd"),
+                contribution = member.Contribution
+            });
+        }
+
+        [HttpGet]
+        public IActionResult AddLoanPage()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddLoanPage([FromForm] CooperativeMembers member)
+        {
+            Console.WriteLine("🟢 CreateLoan method triggered!");
+
+            if (!ModelState.IsValid)
+            {
+                Console.WriteLine("🔴 Model state is invalid.");
+                return View("AddLoanPage", member);
+            }
+
+            try
+            {
+                Console.WriteLine($"🟢 Adding Loan: {member.FirstName} {member.LastName}");
+
+                _context.CooperativeMembers.Add(member);
+                await _context.SaveChangesAsync();
+
+                Console.WriteLine("🟢 Member successfully added.");
+                return RedirectToAction("Index", "Admin", new { area = "Admin" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"🔴 SERVER ERROR: {ex.Message}");
+                ModelState.AddModelError("", "An error occurred while saving the member.");
+                return View("AddMemberPage", member);
+            }
+        }
     }
 }

@@ -63,19 +63,34 @@ body {
 /* Submit Button */
 .submit-btn {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     background: linear-gradient(135deg, #00bcd4, #64dd17);
     color: white;
     font-size: 18px;
     font-weight: bold;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: background 0.3s ease-in-out, transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    text-align: center;
 }
 
+    /* Hover Effect */
     .submit-btn:hover {
         background: linear-gradient(135deg, #0097a7, #43a047);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Active (When Clicked) */
+    .submit-btn:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        background: linear-gradient(135deg, #007bff, #2196f3);
     }
 
 /* Back to Dashboard */
