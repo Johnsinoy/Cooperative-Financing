@@ -1,10 +1,14 @@
 ﻿
+
 /* Center and Style the Member List */
 .member-list-container {
     width: 90%;
     max-width: 900px;
     margin: 20px auto;
+    max-height: 80vh; /* Prevents it from growing too much */
+    overflow-y: auto; /* Enables vertical scrolling */
 }
+
 
 /* Style the Table */
 .member-table {
@@ -53,3 +57,4 @@
         grid-template-columns: 1fr;
     }
 }
+

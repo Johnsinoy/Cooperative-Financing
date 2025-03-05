@@ -1,7 +1,7 @@
 ﻿@model List<CooperativeFinancing.Models.CooperativeMembers>
 
 <link rel="stylesheet" href="~/css/table-list.css" asp-append-version="true" />
-
+<link rel="stylesheet" href="~/css/edit-member.css" asp-append-version="true" />
 <table class="member-table">
     <thead>
         <tr>
@@ -13,6 +13,7 @@
             <th>Email</th>
             <th>Join Date</th>
             <th>Contribution</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -35,3 +36,137 @@
         }
     </tbody>
 </table>
+<!-- Edit Member Modal -->
+<div id="editMemberModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeEditModal()">&times;</span>
+        <h2>Edit Member</h2>
+        <form id="editMemberForm" class="grid grid-cols-2 gap-4" method="post" asp-area="Admin" asp-controller="Admin" asp-action="UpdateMember">
+            @Html.AntiForgeryToken()
+            <input type="hidden" id="editMemberID" name="Member_Id">
+
+            <!-- First Name & Last Name -->
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">First Name:</label>
+                <input type="text" id="editFirstName" name="FirstName" class="input-field">
+            </div>
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Last Name:</label>
+                <input type="text" id="editLastName" name="LastName" class="input-field">
+            </div>
+
+            <!-- Street & City -->
+            <div class="col-span-2">
+                <label class="block text-gray-700 font-medium mb-1">Street:</label>
+                <input type="text" id="editStreet" name="Street" class="input-field">
+            </div>
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">City:</label>
+                <input type="text" id="editCity" name="City" class="input-field">
+            </div>
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Province:</label>
+                <input type="text" id="editProvince" name="Province" class="input-field">
+            </div>
+
+            <!-- Email & Phone -->
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Email:</label>
+                <input type="email" id="editEmail" name="Email" class="input-field">
+            </div>
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Phone:</label>
+                <input type="text" id="editPhone" name="Phone" class="input-field">
+            </div>
+
+            <!-- Join Date & Contribution -->
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Join Date:</label>
+                <input type="date" id="editJoinDate" name="JoinDate" class="input-field">
+            </div>
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Contribution:</label>
+                <input type="number" id="editContribution" name="Contribution" class="input-field">
+            </div>
+
+            <!-- Submit Button -->
+            <div class="col-span-2">
+                <button type="submit" class="w-full py-3 text-white font-semibold rounded-lg bg-gradient-to-r from-blue-500 to-green-400 hover:from-blue-600 hover:to-green-500 transition duration-300">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Ensure jQuery is loaded -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function openEditModal(memberID) {
+        $.get("@Url.Action("GetMember", "Admin")", { id: memberID }, function (data) {
+            $("#editMemberID").val(data.memberID);
+            $("#editFirstName").val(data.firstName);
+            $("#editLastName").val(data.lastName);
+            $("#editStreet").val(data.street);
+            $("#editCity").val(data.city);
+            $("#editProvince").val(data.province);
+            $("#editEmail").val(data.email);
+            $("#editPhone").val(data.phone);
+            $("#editJoinDate").val(data.joinDate);
+            $("#editContribution").val(data.contribution);
+            $("#editMemberModal").fadeIn();
+        });
+    }
+
+    function closeEditModal() {
+        $("#editMemberModal").fadeOut();
+    }
+
+    $("#editMemberForm").submit(function (event) {
+        event.preventDefault();
+
+        let formData = {
+            Member_Id: parseInt($("#editMemberID").val()),
+            FirstName: $("#editFirstName").val(),
+            LastName: $("#editLastName").val(),
+            Street: $("#editStreet").val(),
+            City: $("#editCity").val(),
+            Province: $("#editProvince").val(),
+            Email: $("#editEmail").val(),
+            Phone: $("#editPhone").val(),
+            JoinDate: $("#editJoinDate").val(),
+            Contribution: parseInt($("#editContribution").val())
+        };
+
+        let token = $('input[name="__RequestVerificationToken"]').val(); // Get anti-forgery token
+
+        $.ajax({
+            url: "@Url.Action("UpdateMember", "Admin")",
+            type: "POST",
+            contentType: "application/json", // Ensure the content type is JSON
+            headers: {
+                "RequestVerificationToken": token // Include anti-forgery token
+            },
+            data: JSON.stringify(formData), // Convert data to JSON
+            dataType: "json", // Expect JSON response
+            success: function (response) {
+                console.log("Server Response:", response);
+                if (response && response.success) {
+                    alert(response.message || "Member updated successfully!");
+                    location.reload(); // Refresh the page
+                } else {
+                    alert("Error: " + (response.message || "Unknown error"));
+                    console.error("Validation Errors:", response.errors);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX Error:", error);
+                console.error("Status:", status);
+                console.error("Response:", xhr.responseText);
+                alert("Failed to update member. Please try again.");
+            }
+        });
+    });
+
+
+</script>
