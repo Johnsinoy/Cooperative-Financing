@@ -14,7 +14,7 @@
     <!-- Sidebar -->
     <aside class="sidebar">
         <button class="active">HOME</button>
-        <button>MEMBER</button>
+        <button href="@Url.Action("MemberList", "Admin")" class="members-btn">MEMBERS</button>
         <button>LOANS</button>
         <button>PAYMENTS</button>
         <button>USER</button>
@@ -36,3 +36,12 @@
         </section>
     </main>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".members-btn").click(function() {
+            window.location.href = "@Url.Action("MemberList", "Admin")";
+        });
+    });
+</script>

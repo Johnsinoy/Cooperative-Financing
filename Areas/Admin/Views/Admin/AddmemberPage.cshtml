@@ -27,7 +27,7 @@
 <div class="container">
     <h1 class="form-title">Add New Member</h1>
 
-    <form asp-area="Admin" asp-controller="Admin" asp-action="AddMemberPage" method="post">
+    <form  class="member-form" asp-area="Admin" asp-controller="Admin" asp-action="AddMemberPage" method="post">
         @Html.AntiForgeryToken()
 
         <div class="form-group">
@@ -75,7 +75,8 @@
             <input type="number" id="contribution" name="Contribution" required>
         </div>
 
-        <button type="submit">Add Member</button>
+        <button type="submit" class="submit-btn">Add Member</button>
+
     </form>
 
     <a href="@dashboardUrl" class="back-link">Back to Dashboard</a>

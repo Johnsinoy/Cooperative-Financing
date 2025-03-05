@@ -56,5 +56,44 @@ namespace CooperativeFinancing.Areas.Admin.Controllers
                 return View("AddMemberPage", member);
             }
         }
+
+        [HttpGet]
+        public IActionResult MemberList()
+        {
+            var members = _context.CooperativeMembers.ToList();
+            return View(members);
+        }
+
+        [HttpGet]
+        public IActionResult SearchMember(string FirstName, string LastName, string City, string Province, string Street, string PhoneNumber, string Email)
+        {
+            var members = _context.CooperativeMembers.AsQueryable();
+
+            if (!string.IsNullOrEmpty(FirstName))
+                members = members.Where(m => m.FirstName.Contains(FirstName));
+
+            if (!string.IsNullOrEmpty(LastName))
+                members = members.Where(m => m.LastName.Contains(LastName));
+
+            if (!string.IsNullOrEmpty(City))
+                members = members.Where(m => m.City.Contains(City));
+
+            if (!string.IsNullOrEmpty(Province))
+                members = members.Where(m => m.Province.Contains(Province));
+
+            if (!string.IsNullOrEmpty(Street))
+                members = members.Where(m => m.Street.Contains(Street));
+
+            if (!string.IsNullOrEmpty(PhoneNumber))
+                members = members.Where(m => m.Phone.Contains(PhoneNumber));
+
+            if (!string.IsNullOrEmpty(Email))
+                members = members.Where(m => m.Email.Contains(Email));
+
+            return PartialView("_MemberTable", members.ToList());
+        }
+
+
+
     }
 }

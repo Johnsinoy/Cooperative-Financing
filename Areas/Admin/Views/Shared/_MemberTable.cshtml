@@ -1,0 +1,33 @@
+﻿@model List<CooperativeFinancing.Models.CooperativeMembers>
+
+<link rel="stylesheet" href="~/css/table-list.css" asp-append-version="true" />
+
+<table class="member-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Street</th>
+            <th>City</th>
+            <th>Province</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Join Date</th>
+            <th>Contribution</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var member in Model)
+        {
+            <tr>
+                <td>@member.FirstName @member.LastName</td>
+                <td>@member.Street</td>
+                <td>@member.City</td>
+                <td>@member.Province</td>
+                <td>@member.Phone</td>
+                <td>@member.Email</td>
+                <td>@member.JoinDate.ToString("yyyy-MM-dd")</td>
+                <td>@member.Contribution</td>
+            </tr>
+        }
+    </tbody>
+</table>
