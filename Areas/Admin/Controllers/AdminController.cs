@@ -93,7 +93,19 @@ namespace CooperativeFinancing.Areas.Admin.Controllers
             return PartialView("_MemberTable", members.ToList());
         }
 
+        [HttpPost]
+        public IActionResult DeleteMember(int id)
+        {
+            var member = _context.CooperativeMembers.Find(id);
+            if (member == null)
+            {
+                return NotFound();
+            }
 
+            _context.CooperativeMembers.Remove(member);
+            _context.SaveChanges();
+            return Json(new { success = true });
+        }
 
     }
 }

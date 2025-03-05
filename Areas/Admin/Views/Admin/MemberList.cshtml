@@ -87,4 +87,24 @@
             });
         });
     });
+    function deleteMember(memberID) {
+        if (!confirm("Are you sure you want to delete this member?")) return;
+
+        $.ajax({
+            url: "@Url.Action("DeleteMember", "Admin")",
+            type: "POST",
+            data: { id: memberID },
+            success: function (response) {
+                if (response.success) {
+                    alert("Member deleted successfully!");
+                    location.reload();
+                } else {
+                    alert("Error deleting member.");
+                }
+            },
+            error: function () {
+                alert("Error deleting member.");
+            }
+        });
+    }
 </script>
