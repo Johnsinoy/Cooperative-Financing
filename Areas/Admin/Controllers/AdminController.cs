@@ -190,36 +190,104 @@ namespace CooperativeFinancing.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult AddLoanPage()
         {
+            var members = _context.CooperativeMembers.ToList(); // Fetch all members
+
+            if (members == null || !members.Any())
+            {
+                ViewBag.Members = new List<CooperativeMembers>(); // Ensure it's not null
+            }
+            else
+            {
+                ViewBag.Members = members;
+            }
+
             return View();
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddLoanPage([FromForm] CooperativeMembers member)
+        public async Task<IActionResult> AddLoanPage([FromForm] CooperativeLoans loan)
         {
-            Console.WriteLine("🟢 CreateLoan method triggered!");
+            Console.WriteLine("🟢 AddLoanPage (POST) method triggered!");
 
             if (!ModelState.IsValid)
             {
                 Console.WriteLine("🔴 Model state is invalid.");
-                return View("AddLoanPage", member);
+                var members = _context.CooperativeMembers.ToList(); // Fetch members again for dropdown
+                ViewBag.Members = members;
+                return View("AddLoanPage", loan); // Return the view with validation errors
             }
 
             try
             {
-                Console.WriteLine($"🟢 Adding Loan: {member.FirstName} {member.LastName}");
+                Console.WriteLine($"🟢 Adding Loan for Member ID: {loan.Member_Id}");
 
-                _context.CooperativeMembers.Add(member);
+                _context.CooperativeLoans.Add(loan);
                 await _context.SaveChangesAsync();
 
-                Console.WriteLine("🟢 Member successfully added.");
+                Console.WriteLine("🟢 Loan successfully added.");
                 return RedirectToAction("Index", "Admin", new { area = "Admin" });
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"🔴 SERVER ERROR: {ex.Message}");
-                ModelState.AddModelError("", "An error occurred while saving the member.");
-                return View("AddMemberPage", member);
+                ModelState.AddModelError("", "An error occurred while saving the loan.");
+                var members = _context.CooperativeMembers.ToList(); // Fetch members again for dropdown
+                ViewBag.Members = members;
+                return View("AddLoanPage", loan); // Return the view with the model and error message
+            }
+        }
+
+        [HttpGet]
+        public IActionResult AddLoginDetails()
+        {
+            var members = _context.CooperativeMembers.ToList(); // Fetch members from DB
+
+            if (members == null || !members.Any())
+            {
+                ViewBag.Members = new List<CooperativeMembers>(); // Ensure it's never null
+            }
+            else
+            {
+                ViewBag.Members = members;
+            }
+
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddLoginDetails([FromForm] CooperativeUsers users)
+        {
+            Console.WriteLine("🟢 AddLoginDetails (POST) method triggered!");
+
+            if (!ModelState.IsValid)
+            {
+                Console.WriteLine("🔴 Model state is invalid.");
+                var members = _context.CooperativeMembers.ToList(); // Fetch members again for dropdown
+                ViewBag.Members = members;
+                return View("AddLoginDetails", users); // Return the view with validation errors
+            }
+
+            try
+            {
+                Console.WriteLine($"🟢 Adding User for Member ID: {users.Member_Id}");
+
+                _context.CooperativeUsers.Add(users);
+                await _context.SaveChangesAsync();
+
+                Console.WriteLine("🟢 User successfully added.");
+                return RedirectToAction("Index", "Admin", new { area = "Admin" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"🔴 SERVER ERROR: {ex.Message}");
+                ModelState.AddModelError("", "An error occurred while saving the user.");
+                var members = _context.CooperativeMembers.ToList(); // Fetch members again for dropdown
+                ViewBag.Members = members;
+                return View("AddLoginDetails", users); // Return the view with the model and error message
             }
         }
     }
