@@ -238,5 +238,57 @@ namespace CooperativeFinancing.Areas.Admin.Controllers
                 return View("AddLoanPage", loan); // Return the view with the model and error message
             }
         }
+
+        [HttpGet]
+        public IActionResult AddLoginDetails()
+        {
+            var members = _context.CooperativeMembers.ToList(); // Fetch members from DB
+
+            if (members == null || !members.Any())
+            {
+                ViewBag.Members = new List<CooperativeMembers>(); // Ensure it's never null
+            }
+            else
+            {
+                ViewBag.Members = members;
+            }
+
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddLoginDetails([FromForm] CooperativeUsers users)
+        {
+            Console.WriteLine("🟢 AddLoginDetails (POST) method triggered!");
+
+            if (!ModelState.IsValid)
+            {
+                Console.WriteLine("🔴 Model state is invalid.");
+                var members = _context.CooperativeMembers.ToList(); // Fetch members again for dropdown
+                ViewBag.Members = members;
+                return View("AddLoginDetails", users); // Return the view with validation errors
+            }
+
+            try
+            {
+                Console.WriteLine($"🟢 Adding User for Member ID: {users.Member_Id}");
+
+                _context.CooperativeUsers.Add(users);
+                await _context.SaveChangesAsync();
+
+                Console.WriteLine("🟢 User successfully added.");
+                return RedirectToAction("Index", "Admin", new { area = "Admin" });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"🔴 SERVER ERROR: {ex.Message}");
+                ModelState.AddModelError("", "An error occurred while saving the user.");
+                var members = _context.CooperativeMembers.ToList(); // Fetch members again for dropdown
+                ViewBag.Members = members;
+                return View("AddLoginDetails", users); // Return the view with the model and error message
+            }
+        }
     }
 }

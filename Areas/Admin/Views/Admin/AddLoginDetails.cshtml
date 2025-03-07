@@ -1,0 +1,84 @@
+﻿@model CooperativeFinancing.Models.CooperativeUsers
+
+@{
+    ViewData["Title"] = "Add New User";
+    var dashboardUrl = Url.Action("Index", "Admin", new { area = "Admin" });
+    var members = ViewBag.Members as List<CooperativeFinancing.Models.CooperativeMembers>; // Fetch members list from controller
+}
+<link rel="stylesheet" href="~/css/add-member.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/admin-dashboard.css" asp-append-version="true" />
+
+@await Html.PartialAsync("_AdminHeader")
+
+<!-- Display Validation Errors -->
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="error-message">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p style="color: red;">@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+<div class="container">
+    <h1 class="form-title">Add New Loan</h1>
+    <!-- Form fields -->
+    <form class="user-form" asp-area="Admin" asp-controller="Admin" asp-action="AddLoginDetails" method="post">
+        @Html.AntiForgeryToken()
+
+        <!-- Member Selection -->
+        <div class="form-group">
+            <label for="memberId">Select Member</label>
+            <select id="memberId" name="Member_Id" class="searchable-dropdown" required>
+                <option value="">-- Select a Member --</option>
+                @foreach (var member in members)
+                {
+                    <option value="@member.Member_Id">@member.FirstName @member.LastName</option>
+                }
+            </select>
+        </div>
+
+        <!-- Username -->
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="Username" required>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="Password" required>
+        </div>
+
+        <!-- Is Admin -->
+        <div class="form-group">
+            <label for="isAdmin">Is Admin?</label>
+            <input type="checkbox" id="isAdmin" name="Is_Admin" value="true">
+        </div>
+
+        <button type="submit" class="submit-btn">Add User</button>
+    </form>
+
+    <a href="@dashboardUrl" class="back-link">Back to Dashboard</a>
+</div>
+
+
+<!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+<!-- jQuery (Ensure it's loaded) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $(".searchable-dropdown").select2({
+            placeholder: "-- Select a Member --",
+            allowClear: true,
+            width: '100%' // Ensures it adjusts properly
+        });
+    });
+</script>
