@@ -20,7 +20,12 @@
         @foreach (var member in Model)
         {
             <tr>
-                <td>@member.FirstName @member.LastName</td>
+                <td>
+                    <!-- Make the name clickable -->
+                    <a href="@Url.Action("MemberProfile", "Member", new { id = member.Member_Id })">
+                        @member.FirstName @member.LastName
+                    </a>
+                </td>
                 <td>@member.Street</td>
                 <td>@member.City</td>
                 <td>@member.Province</td>

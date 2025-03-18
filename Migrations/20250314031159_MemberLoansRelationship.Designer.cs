@@ -4,6 +4,7 @@ using CooperativeFinancing.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CooperativeFinancing.Migrations
 {
     [DbContext(typeof(CooperativeContext))]
-    partial class CooperativeContextModelSnapshot : ModelSnapshot
+    [Migration("20250314031159_MemberLoansRelationship")]
+    partial class MemberLoansRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,8 +69,6 @@ namespace CooperativeFinancing.Migrations
                         .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Loan_Id");
-
-                    b.HasIndex("Member_Id");
 
                     b.ToTable("CooperativeLoans");
 
@@ -260,22 +261,6 @@ namespace CooperativeFinancing.Migrations
                     b.HasKey("User_Id");
 
                     b.ToTable("CooperativeUsers");
-                });
-
-            modelBuilder.Entity("CooperativeFinancing.Models.CooperativeLoans", b =>
-                {
-                    b.HasOne("CooperativeFinancing.Models.CooperativeMembers", "CooperativeMember")
-                        .WithMany("CooperativeLoans")
-                        .HasForeignKey("Member_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CooperativeMember");
-                });
-
-            modelBuilder.Entity("CooperativeFinancing.Models.CooperativeMembers", b =>
-                {
-                    b.Navigation("CooperativeLoans");
                 });
 #pragma warning restore 612, 618
         }
