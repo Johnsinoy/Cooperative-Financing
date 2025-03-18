@@ -290,5 +290,6 @@ namespace CooperativeFinancing.Areas.Admin.Controllers
                 return View("AddLoginDetails", users); // Return the view with the model and error message
             }
         }
+      
     }
 }

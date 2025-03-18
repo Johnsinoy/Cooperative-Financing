@@ -36,5 +36,9 @@ namespace CooperativeFinancing.Models
         [Column(TypeName = "date")]
         public DateTime JoinDate { get; set; }
         public int Contribution { get; set; }
+
+        // ✅ Navigation Property: One Member → Many Loans
+        public virtual ICollection<CooperativeLoans> CooperativeLoans { get; set; } = new List<CooperativeLoans>();
+
     }
 }

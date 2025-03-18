@@ -22,5 +22,9 @@ namespace CooperativeFinancing.Models
         public decimal Monthly_Payment { get; set; }
         public decimal Total_Payment { get; set; }
         public string Status { get; set; }
+
+        // ✅ Navigation Property
+        [ForeignKey("Member_Id")]
+        public virtual CooperativeMembers CooperativeMember { get; set; }
     }
 }
