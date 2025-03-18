@@ -1,7 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Admin Dashboard";
+    var loanTable = Url.Action("LoanTable", "Loan", new { area = "Admin" });
+    var paymentTable = Url.Action("PaymentTable", "Payment", new { area = "Admin" });
+    var userTable = Url.Action("UserTable", "User", new { area = "Admin" });
 }
-
 
 <!-- Link External CSS -->
 <link rel="stylesheet" href="~/css/admin-dashboard.css" asp-append-version="true" />
@@ -18,9 +20,9 @@
     <aside class="sidebar">
         <button onclick="window.location.href='@Url.Action("Index", "Admin")'">HOME</button>
         <button class="active">MEMBERS</button>
-        <button>LOANS</button>
-        <button>PAYMENTS</button>
-        <button>USER</button>
+        <button id="loans-btn">LOANS</button>
+        <button id="payment-btn">PAYMENTS</button>
+        <button id="usertable-btn">USER</button>
     </aside>
 
     <!-- Main Content -->
@@ -88,6 +90,21 @@
                     alert("Error retrieving search results.");
                 }
             });
+        });
+        $(".members-btn").click(function() {
+            window.location.href = "@Url.Action("MemberList", "Admin")";
+        });
+        // Redirect to Loan Table when clicking Loans Button
+        $("#loans-btn").click(function() {
+            window.location.href = "@loanTable";
+        });
+        // Redirect to Loan Table when clicking Loans Button
+        $("#payment-btn").click(function() {
+            window.location.href = "@paymentTable";
+        });
+        // Redirect to Loan Table when clicking Loans Button
+        $("#usertable-btn").click(function() {
+            window.location.href = "@userTable";
         });
     });
     function deleteMember(memberID) {

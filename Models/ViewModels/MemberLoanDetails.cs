@@ -1,10 +1,7 @@
 ﻿namespace CooperativeFinancing.Models.ViewModels
 {
-    public class LoanViewModel
+    public class MemberLoanDetails
     {
-        public CooperativeLoans Loan { get; set; } = new CooperativeLoans();
-        public List<CooperativeMembers> Members { get; set; } = new List<CooperativeMembers>();
-
         public int Member_Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

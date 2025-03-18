@@ -1,0 +1,70 @@
+﻿@model List<CooperativeFinancing.Models.ViewModels.LoginDetailsView>
+@{
+    var loanTable = Url.Action("LoanTable", "Loan", new { area = "Admin" });
+    var paymentTable = Url.Action("PaymentTable", "Payment", new { area = "Admin" });
+    var userTable = Url.Action("UserTable", "User", new { area = "Admin" });
+}
+
+<link rel="stylesheet" href="~/css/admin-dashboard.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/table-list.css" asp-append-version="true" />
+
+<!-- Include Dropdown for Administrative -->
+@await Html.PartialAsync("_AdminHeader")
+
+<div class="dashboard-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <button onclick="window.location.href='@Url.Action("Index", "Admin")'">HOME</button>
+        <button id="members-btn">MEMBERS</button>
+        <button id="loans-btn">LOANS</button>
+        <button id="payment-btn">PAYMENTS</button>
+        <button id="usertable-btn" class="active">USER</button>
+    </aside>
+    <main class="main-content">
+
+        <table class="member-table">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Member Name</th> <!-- ✅ Shows Full Name -->
+                    <th>Username</th>
+                    <th>Is Admin</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.User_Id</td>
+                        <td>@user.Member_Name</td> <!-- ✅ Corrected reference -->
+                        <td>@user.Username</td>
+                        <td>@(user.Is_Admin ? "Yes" : "No")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </main>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#members-btn").click(function() {
+            window.location.href = "@Url.Action("MemberList", "Admin")";
+        });
+        // Redirect to Loan Table when clicking Loans Button
+        $("#loans-btn").click(function() {
+            window.location.href = "@loanTable";
+        });
+        // Redirect to Loan Table when clicking Loans Button
+        $("#payment-btn").click(function() {
+            window.location.href = "@paymentTable";
+        });
+        // Redirect to Loan Table when clicking Loans Button
+        $("#usertable-btn").click(function() {
+            window.location.href = "@userTable";
+        });
+    });
+</script>
+
