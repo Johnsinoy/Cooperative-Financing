@@ -1,5 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Admin Dashboard";
+    var loanTable = Url.Action("LoanTable", "Loan", new { area = "Admin" });
+    var paymentTable = Url.Action("PaymentTable", "Payment", new { area = "Admin" });
 }
 
 <!-- Link External CSS -->
@@ -15,8 +17,8 @@
     <aside class="sidebar">
         <button class="active">HOME</button>
         <button href="@Url.Action("MemberList", "Admin")" class="members-btn">MEMBERS</button>
-        <button>LOANS</button>
-        <button>PAYMENTS</button>
+        <button id="loans-btn">LOANS</button>
+        <button id="payment-btn">PAYMENTS</button>
         <button>USER</button>
     </aside>
 
@@ -42,6 +44,14 @@
     $(document).ready(function() {
         $(".members-btn").click(function() {
             window.location.href = "@Url.Action("MemberList", "Admin")";
+        });
+        // Redirect to Loan Table when clicking Loans Button
+        $("#loans-btn").click(function() {
+            window.location.href = "@loanTable";
+        });
+        // Redirect to Loan Table when clicking Loans Button
+        $("#payment-btn").click(function() {
+            window.location.href = "@paymentTable";
         });
     });
 </script>

@@ -4,6 +4,7 @@ using CooperativeFinancing.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CooperativeFinancing.Migrations
 {
     [DbContext(typeof(CooperativeContext))]
-    partial class CooperativeContextModelSnapshot : ModelSnapshot
+    [Migration("20250318040449_MemberLoanDetails")]
+    partial class MemberLoanDetails
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -312,34 +315,6 @@ namespace CooperativeFinancing.Migrations
                     b.ToTable((string)null);
 
                     b.ToView("MemberLoanDetails", (string)null);
-                });
-
-            modelBuilder.Entity("CooperativeFinancing.Models.ViewModels.MemberPaymentsView", b =>
-                {
-                    b.Property<int>("Payment_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Loan_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Member_Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Member_Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<decimal>("Payment_Amount")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.Property<DateTime>("Payment_Date")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Payment_Id");
-
-                    b.ToTable((string)null);
-
-                    b.ToView("MemberPaymentsView", (string)null);
                 });
 
             modelBuilder.Entity("CooperativeFinancing.Models.CooperativeLoans", b =>

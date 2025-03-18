@@ -192,3 +192,37 @@ media (max-width: 768px) {
         background: #555;
     }
 
+/* Style the Table */
+.member-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+    /* Table Headers */
+    .member-table thead {
+        background: #1abc9c;
+        color: white;
+        font-size: 18px;
+        text-align: left;
+    }
+
+    /* Table Rows */
+    .member-table th, .member-table td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Alternating Row Colors */
+    .member-table tbody tr:nth-child(even) {
+        background: #f9f9f9;
+    }
+
+    /* Hover Effect */
+    .member-table tbody tr:hover {
+        background: #e0f7fa;
+        transition: 0.3s ease-in-out;
+    }

@@ -1,0 +1,68 @@
+﻿@model List<CooperativeFinancing.Models.ViewModels.LoanViewModel>
+
+<link rel="stylesheet" href="~/css/admin-dashboard.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/table-list.css" asp-append-version="true" />
+
+<!-- Include Dropdown for Administrative -->
+@await Html.PartialAsync("_AdminHeader")
+
+
+<div class="dashboard-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <button onclick="window.location.href='@Url.Action("Index", "Admin")'">HOME</button>
+        <button>MEMBERS</button>
+        <button class="active">LOANS</button>
+        <button>PAYMENTS</button>
+        <button>USER</button>
+    </aside>
+    <main class="main-content">
+
+        <table class="member-table">
+            <thead>
+                <tr>
+                    <th>Member Name</th>
+                    <th>Loan Amount</th>
+                    <th>Purpose</th>
+                    <th>Annual Interest</th>
+                    <th>Term (Months)</th>
+                    <th>Release Date</th>
+                    <th>First Month</th>
+                    <th>End Month</th>
+                    <th>Monthly Payment</th>
+                    <th>Total Payment</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var loan in Model)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("MemberProfile", "Member", new { id = loan.Member_Id })">
+                                @loan.FirstName @loan.LastName
+                            </a>
+                        </td>
+                        <td>@loan.Loan_Amount.ToString("C")</td>
+                        <td>@loan.Purpose_Loan</td>
+                        <td>@loan.Annual_Interest %</td>
+                        <td>@loan.Term</td>
+                        <td>@loan.Release_Date.ToString("yyyy-MM-dd")</td>
+                        <td>@loan.First_Month.ToString("yyyy-MM-dd")</td>
+                        <td>@loan.End_Month.ToString("yyyy-MM-dd")</td>
+                        <td>@loan.Monthly_Payment.ToString("C")</td>
+                        <td>@loan.Total_Payment.ToString("C")</td>
+                        <td class="status">@loan.Status</td>
+                        <td>
+                            <button class="edit-btn" onclick="openEditModal(@loan.Member_Id)">Edit</button>
+                            <button class="delete-btn" onclick="deleteLoan(@loan.Member_Id)">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </main>
+</div>
+

@@ -1,0 +1,47 @@
+﻿@model List<CooperativeFinancing.Models.ViewModels.PaymentViewModel>
+
+<link rel="stylesheet" href="~/css/admin-dashboard.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/table-list.css" asp-append-version="true" />
+
+<!-- Include Dropdown for Administrative -->
+@await Html.PartialAsync("_AdminHeader")
+
+<div class="dashboard-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <button onclick="window.location.href='@Url.Action("Index", "Admin")'">HOME</button>
+        <button>MEMBERS</button>
+        <button>LOANS</button>
+        <button class ="active">PAYMENTS</button>
+        <button>USER</button>
+    </aside>
+    <main class="main-content">
+
+        <table class="member-table">
+            <thead>
+                <tr>
+                    <th>Payment ID</th>
+                    <th>Member Name</th> <!-- ✅ Correctly shows Member Name -->
+                    <th>Loan ID</th>
+                    <th>Payment Date</th>
+                    <th>Payment Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var payment in Model)
+                {
+                    <tr>
+                        <td>@payment.Payment.Payment_Id</td>
+                        <td>@payment.Member_Name</td> <!-- ✅ Fix: Displays Member Name -->
+                        <td>@payment.Payment.Loan_Id</td>
+                        <td>@payment.Payment.Payment_Date.ToString("yyyy-MM-dd")</td>
+                        <td>@payment.Payment.Payment_Amount.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </main>
+</div>
+

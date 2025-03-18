@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using CooperativeFinancing.Models.ViewModels; // Make sure to include the ViewModel namespace
+
 namespace CooperativeFinancing.Models
 {
     public class CooperativeContext : DbContext
@@ -12,9 +14,20 @@ namespace CooperativeFinancing.Models
         public DbSet<CooperativeUsers> CooperativeUsers { get; set; }
         public DbSet<CooperativeMembers> CooperativeMembers { get; set; }
 
+        public DbSet<MemberLoanDetails> MemberLoanDetails { get; set; }
+        public DbSet<MemberPaymentsView> MemberPaymentsView { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Map the MySQL View (Ensure the view name matches exactly in MySQL)
+            modelBuilder.Entity<MemberLoanDetails>().ToView("MemberLoanDetails").HasKey(l => l.Member_Id);
+
+            // ✅ Ensure the MySQL View is mapped correctly
+            modelBuilder.Entity<MemberPaymentsView>().ToView("MemberPaymentsView").HasKey(p => p.Payment_Id);
+
+
 
             // Seeding CooperativeMembers
             modelBuilder.Entity<CooperativeMembers>().HasData(
