@@ -1,0 +1,235 @@
+﻿/* Header Styling */
+.header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: linear-gradient(to right, #00bcd4, #64dd17, #ffeb3b);
+    color: white;
+    border-bottom: 4px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    flex-wrap: wrap;
+    text-align: center;
+}
+.header .active {
+    text-decoration-line:underline;
+    color: white;
+    font-weight: bold;
+}
+
+.header span {
+    transition: all 0.3s ease-in-out;
+    padding: 5px 10px;
+}
+
+    .header span:hover {
+        transform: scale(1.1);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+/* Main Dashboard Container */
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    background: linear-gradient(to right, #00bcd4, #fdd835);
+    padding: 20px;
+    align-items: flex-start; /* Aligns sidebar and content at the top */
+}
+
+
+/* Sidebar */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 250px;
+}
+
+    .sidebar button {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        text-align: center;
+        cursor: pointer;
+        background: white;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .sidebar button:hover {
+            background: #ddd;
+        }
+
+    .sidebar .active {
+        background: #00796b;
+        color: white;
+        font-weight: bold;
+    }
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Aligns content at the top */
+    align-items: flex-start; /* Aligns content to the left */
+    padding-left: 40px; /* Ensures alignment with sidebar */
+    margin-top: 15px; /* Adjust this value if needed */
+}
+
+.welcome-text {
+    margin-bottom: 30px; /* Creates spacing between the text and grid */
+    text-align: left; /* Aligns with sidebar */
+    font-size: 28px;
+    font-weight: bold;
+}
+
+
+/* Grid Layout */
+.grid-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 900px;
+}
+
+.grid-item {
+    background: #606060;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Ensure CSS Media Queries are inside <style> */
+media (max-width: 1024px) {
+    .dashboard-container
+
+{
+    flex-direction: column;
+    height: auto;
+}
+
+.sidebar {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+    padding-bottom: 10px;
+}
+
+    .sidebar button {
+        width: auto;
+        flex: 1;
+        padding: 12px;
+        font-size: 14px;
+    }
+
+.grid-content {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    width: 90%;
+}
+
+}
+
+media (max-width: 768px) {
+    .header
+
+{
+    font-size: 16px;
+    flex-wrap: wrap;
+    padding: 10px;
+}
+
+.sidebar {
+    flex-direction: column;
+    align-items: center;
+}
+
+.grid-content {
+    grid-template-columns: 1fr;
+    width: 100%;
+}
+
+.grid-item {
+    padding: 15px;
+    font-size: 14px;
+}
+.nav-button {
+    display: block;
+    background: #00796b;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+    .nav-button:hover {
+        background: #005a4f;
+    }
+
+.back-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 15px;
+    background: #777;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+    .back-button:hover {
+        background: #555;
+    }
+
+/* Style the Table */
+.member-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+    /* Table Headers */
+    .member-table thead {
+        background: #1abc9c;
+        color: white;
+        font-size: 18px;
+        text-align: left;
+    }
+
+    /* Table Rows */
+    .member-table th, .member-table td {
+        padding: 12px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Alternating Row Colors */
+    .member-table tbody tr:nth-child(even) {
+        background: #f9f9f9;
+    }
+
+    /* Hover Effect */
+    .member-table tbody tr:hover {
+        background: #e0f7fa;
+        transition: 0.3s ease-in-out;
+    }
+.count {
+    font-size: 24px; /* ✅ Make the number larger */
+    font-weight: bold;
+    color: #ffeb3b; /* ✅ Highlight it with a yellow color */
+    display: block;
+    margin-top: 10px;
+}

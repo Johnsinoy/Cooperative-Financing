@@ -1,0 +1,130 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+    var loanTable = Url.Action("LoanTable", "Loan", new { area = "Admin" });
+    var paymentTable = Url.Action("PaymentTable", "Payment", new { area = "Admin" });
+    var userTable = Url.Action("UserTable", "User", new { area = "Admin" });
+}
+
+<!-- Link External CSS -->
+<link rel="stylesheet" href="~/css/admin-dashboard.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/search-list.css" asp-append-version="true" />
+
+
+<!-- Include Dropdown for Administrative -->
+@await Html.PartialAsync("_AdminHeader")
+
+
+<!-- Dashboard Layout -->
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <button onclick="window.location.href='@Url.Action("Index", "Admin")'">HOME</button>
+        <button class="active">MEMBERS</button>
+        <button id="loans-btn">LOANS</button>
+        <button id="payment-btn">PAYMENTS</button>
+        <button id="usertable-btn">USER</button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+       
+
+        <!-- Member List -->
+        <div class="member-list-container">
+            <div class="search-container">
+                <form id="searchForm">
+                    <div class="search-grid">
+                        <div class="form-group">
+                            <label for="firstName">Name:</label>
+                            <input type="text" id="firstName" name="FirstName">
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City:</label>
+                            <input type="text" id="city" name="City">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="text" id="email" name="Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="province">Province:</label>
+                            <input type="text" id="province" name="Province">
+                        </div>
+                        <div class="form-group">
+                            <label for="street">Street:</label>
+                            <input type="text" id="street" name="Street">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number:</label>
+                            <input type="text" id="phone" name="PhoneNumber">
+                        </div>
+                    </div>
+                    <button type="submit" class="search-btn">Search</button>
+                </form>
+            </div>
+            <div id="memberTableContainer">
+                @await Html.PartialAsync("_MemberTable", (List<CooperativeFinancing.Models.CooperativeMembers>)Model)
+            </div>
+
+        </div>
+    </main>
+</div>
+
+
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#searchForm").submit(function (event) {
+            event.preventDefault(); // Prevent form from reloading the page
+
+            $.ajax({
+                url: "@Url.Action("SearchMember", "Admin")",
+                type: "GET",
+                data: $(this).serialize(), // Serialize form inputs
+                success: function (data) {
+                    $("#memberTableContainer").html(data);
+                },
+                error: function () {
+                    alert("Error retrieving search results.");
+                }
+            });
+        });
+        $(".members-btn").click(function() {
+            window.location.href = "@Url.Action("MemberList", "Admin")";
+        });
+        // Redirect to Loan Table when clicking Loans Button
+        $("#loans-btn").click(function() {
+            window.location.href = "@loanTable";
+        });
+        // Redirect to Loan Table when clicking Loans Button
+        $("#payment-btn").click(function() {
+            window.location.href = "@paymentTable";
+        });
+        // Redirect to Loan Table when clicking Loans Button
+        $("#usertable-btn").click(function() {
+            window.location.href = "@userTable";
+        });
+    });
+    function deleteMember(memberID) {
+        if (!confirm("Are you sure you want to delete this member?")) return;
+
+        $.ajax({
+            url: "@Url.Action("DeleteMember", "Admin")",
+            type: "POST",
+            data: { id: memberID },
+            success: function (response) {
+                if (response.success) {
+                    alert("Member deleted successfully!");
+                    location.reload();
+                } else {
+                    alert("Error deleting member.");
+                }
+            },
+            error: function () {
+                alert("Error deleting member.");
+            }
+        });
+    }
+</script>

@@ -1,0 +1,110 @@
+﻿@model CooperativeFinancing.Models.CooperativeMembers
+@{
+    var loanTable = Url.Action("LoanTable", "Loan", new { area = "Admin" });
+    var paymentTable = Url.Action("PaymentTable", "Payment", new { area = "Admin" });
+    var userTable = Url.Action("UserTable", "User", new { area = "Admin" });
+}
+
+<link rel="stylesheet" href="~/css/member-profile.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/add-member.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/admin-dashboard.css" asp-append-version="true" />
+
+
+<!-- Include Dropdown for Administrative -->
+@await Html.PartialAsync("_AdminHeader")
+
+<div class="container">
+    <div class="profile-container">
+        <div class="profile-header">
+            <h2>@Model.FirstName @Model.LastName</h2>
+            <p>Member ID: @Model.Member_Id</p>
+        </div>
+
+        <table class="profile-table">
+            <tr>
+                <th>Street</th>
+                <td>@Model.Street</td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>@Model.City</td>
+            </tr>
+            <tr>
+                <th>Province</th>
+                <td>@Model.Province</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>@Model.Email</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>@Model.Phone</td>
+            </tr>
+            <tr>
+                <th>Join Date</th>
+                <td>@Model.JoinDate.ToString("yyyy-MM-dd")</td>
+            </tr>
+            <tr>
+                <th>Contribution</th>
+                <td>@Model.Contribution</td>
+            </tr>
+        </table>
+
+        <!-- Loans Section -->
+        <div class="loans-section">
+            <h3>Loan Details</h3>
+            @if (Model.CooperativeLoans != null && Model.CooperativeLoans.Any())
+            {
+                <table class="loans-table">
+                    <thead>
+                        <tr>
+                            <th>Loan ID</th>
+                            <th>Amount</th>
+                            <th>Loan Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var loan in Model.CooperativeLoans)
+                        {
+                            <tr>
+                                <td>@loan.Loan_Id</td>
+                                <td>@loan.Loan_Amount</td>
+                                <td>@loan.Release_Date.ToString("yyyy-MM-dd")</td>
+                                <td>@loan.Status</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No loans found for this member.</p>
+            }
+        </div>
+
+        <a href="@Url.Action("Index", "Admin", new { area = "Admin" })" class="back-button">Back to Members List</a>
+    </div>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".members-btn").click(function() {
+            window.location.href = "@Url.Action("MemberList", "Admin")";
+        });
+        // Redirect to Loan Table when clicking Loans Button
+        $("#loans-btn").click(function() {
+            window.location.href = "@loanTable";
+        });
+        // Redirect to Loan Table when clicking Loans Button
+        $("#payment-btn").click(function() {
+            window.location.href = "@paymentTable";
+        });
+        // Redirect to Loan Table when clicking Loans Button
+        $("#usertable-btn").click(function() {
+            window.location.href = "@userTable";
+        });
+    });
+</script>

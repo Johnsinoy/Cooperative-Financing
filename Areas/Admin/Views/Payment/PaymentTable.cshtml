@@ -1,0 +1,72 @@
+﻿@model List<CooperativeFinancing.Models.ViewModels.PaymentViewModel>
+@{
+    var loanTable = Url.Action("LoanTable", "Loan", new { area = "Admin" });
+    var paymentTable = Url.Action("PaymentTable", "Payment", new { area = "Admin" });
+    var userTable = Url.Action("UserTable", "User", new { area = "Admin" });
+}
+
+<link rel="stylesheet" href="~/css/admin-dashboard.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/table-list.css" asp-append-version="true" />
+
+<!-- Include Dropdown for Administrative -->
+@await Html.PartialAsync("_AdminHeader")
+
+<div class="dashboard-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <button onclick="window.location.href='@Url.Action("Index", "Admin")'">HOME</button>
+        <button id="members-btn">MEMBERS</button>
+        <button id="loans-btn">LOANS</button>
+        <button id="payment-btn" class="active">PAYMENTS</button>
+        <button id="usertable-btn">USER</button>
+    </aside>
+    <main class="main-content">
+
+        <table class="member-table">
+            <thead>
+                <tr>
+                    <th>Payment ID</th>
+                    <th>Member Name</th> <!-- ✅ Correctly shows Member Name -->
+                    <th>Loan ID</th>
+                    <th>Payment Date</th>
+                    <th>Payment Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var payment in Model)
+                {
+                    <tr>
+                        <td>@payment.Payment.Payment_Id</td>
+                        <td>@payment.Member_Name</td> <!-- ✅ Fix: Displays Member Name -->
+                        <td>@payment.Payment.Loan_Id</td>
+                        <td>@payment.Payment.Payment_Date.ToString("yyyy-MM-dd")</td>
+                        <td>@payment.Payment.Payment_Amount.ToString("C")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </main>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#members-btn").click(function() {
+            window.location.href = "@Url.Action("MemberList", "Admin")";
+        });
+        // Redirect to Loan Table when clicking Loans Button
+        $("#loans-btn").click(function() {
+            window.location.href = "@loanTable";
+        });
+        // Redirect to Loan Table when clicking Loans Button
+        $("#payment-btn").click(function() {
+            window.location.href = "@paymentTable";
+        });
+        // Redirect to Loan Table when clicking Loans Button
+        $("#usertable-btn").click(function() {
+            window.location.href = "@userTable";
+        });
+    });
+</script>
+

@@ -1,0 +1,12 @@
+﻿<link rel="stylesheet" href="~/css/admin-dropdown.css" asp-append-version="true" />
+
+
+<div class="header">
+    <span>DASHBOARD</span>
+
+    <!-- Include Dropdown for Administrative -->
+    @await Html.PartialAsync("_AdminDropdown")
+
+    @await Html.PartialAsync("_reportDropdown")
+    <span>COOPERATIVE FINANCING</span>
+</div>

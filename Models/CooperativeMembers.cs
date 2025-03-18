@@ -12,11 +12,11 @@ namespace CooperativeFinancing.Models
 
         [Required]
         [StringLength(45)]
-        public string First_Name { get; set; }
+        public string FirstName { get; set; }
 
         [Required]
         [StringLength(45)]
-        public string Last_Name { get; set; }
+        public string LastName { get; set; }
 
         [StringLength(45)]
         public string Street { get; set; }
@@ -35,8 +35,10 @@ namespace CooperativeFinancing.Models
 
         [Column(TypeName = "date")]
         public DateTime JoinDate { get; set; }
-
-        [StringLength(45)]
         public int Contribution { get; set; }
+
+        // ✅ Navigation Property: One Member → Many Loans
+        public virtual ICollection<CooperativeLoans> CooperativeLoans { get; set; } = new List<CooperativeLoans>();
+
     }
 }

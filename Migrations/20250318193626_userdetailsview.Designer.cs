@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CooperativeFinancing.Migrations
 {
     [DbContext(typeof(CooperativeContext))]
-    [Migration("20250303003554_Initial")]
-    partial class Initial
+    [Migration("20250318193626_userdetailsview")]
+    partial class userdetailsview
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,6 +70,8 @@ namespace CooperativeFinancing.Migrations
 
                     b.HasKey("Loan_Id");
 
+                    b.HasIndex("Member_Id");
+
                     b.ToTable("CooperativeLoans");
 
                     b.HasData(
@@ -119,14 +121,13 @@ namespace CooperativeFinancing.Migrations
                         .HasColumnType("varchar(45)");
 
                     b.Property<int>("Contribution")
-                        .HasMaxLength(45)
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("First_Name")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("varchar(45)");
@@ -134,10 +135,13 @@ namespace CooperativeFinancing.Migrations
                     b.Property<DateTime>("JoinDate")
                         .HasColumnType("date");
 
-                    b.Property<string>("Last_Name")
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("varchar(45)");
+
+                    b.Property<int?>("LoginDetailsViewUser_Id")
+                        .HasColumnType("int");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -155,6 +159,8 @@ namespace CooperativeFinancing.Migrations
 
                     b.HasKey("Member_Id");
 
+                    b.HasIndex("LoginDetailsViewUser_Id");
+
                     b.ToTable("CooperativeMembers");
 
                     b.HasData(
@@ -164,9 +170,9 @@ namespace CooperativeFinancing.Migrations
                             City = "Springfield",
                             Contribution = 600,
                             Email = "john.doe@example.com",
-                            First_Name = "John",
+                            FirstName = "John",
                             JoinDate = new DateTime(2023, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Last_Name = "Doe",
+                            LastName = "Doe",
                             Phone = "123-456-7890",
                             Province = "Illinois",
                             Street = "123 Elm St"
@@ -177,9 +183,9 @@ namespace CooperativeFinancing.Migrations
                             City = "Los Angeles",
                             Contribution = 500,
                             Email = "jane.smith@example.com",
-                            First_Name = "Jane",
+                            FirstName = "Jane",
                             JoinDate = new DateTime(2023, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Last_Name = "Smith",
+                            LastName = "Smith",
                             Phone = "987-654-3210",
                             Province = "California",
                             Street = "456 Oak Ave"
@@ -262,6 +268,160 @@ namespace CooperativeFinancing.Migrations
                     b.HasKey("User_Id");
 
                     b.ToTable("CooperativeUsers");
+                });
+
+            modelBuilder.Entity("CooperativeFinancing.Models.ViewModels.LoginDetailsView", b =>
+                {
+                    b.Property<int>("User_Id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Is_Admin")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("Member_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Member_Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("UsersUser_Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("User_Id");
+
+                    b.HasIndex("UsersUser_Id");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("UserMembersView", (string)null);
+                });
+
+            modelBuilder.Entity("CooperativeFinancing.Models.ViewModels.MemberLoanDetails", b =>
+                {
+                    b.Property<int>("Member_Id")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Annual_Interest")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("End_Month")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("First_Month")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal>("Loan_Amount")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("Monthly_Payment")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("Purpose_Loan")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("Release_Date")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Term")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Total_Payment")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Member_Id");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("MemberLoanDetails", (string)null);
+                });
+
+            modelBuilder.Entity("CooperativeFinancing.Models.ViewModels.MemberPaymentsView", b =>
+                {
+                    b.Property<int>("Payment_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Loan_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Member_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Member_Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal>("Payment_Amount")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<DateTime>("Payment_Date")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Payment_Id");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("MemberPaymentsView", (string)null);
+                });
+
+            modelBuilder.Entity("CooperativeFinancing.Models.CooperativeLoans", b =>
+                {
+                    b.HasOne("CooperativeFinancing.Models.CooperativeMembers", "CooperativeMember")
+                        .WithMany("CooperativeLoans")
+                        .HasForeignKey("Member_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CooperativeMember");
+                });
+
+            modelBuilder.Entity("CooperativeFinancing.Models.CooperativeMembers", b =>
+                {
+                    b.HasOne("CooperativeFinancing.Models.ViewModels.LoginDetailsView", null)
+                        .WithMany("Members")
+                        .HasForeignKey("LoginDetailsViewUser_Id");
+                });
+
+            modelBuilder.Entity("CooperativeFinancing.Models.ViewModels.LoginDetailsView", b =>
+                {
+                    b.HasOne("CooperativeFinancing.Models.CooperativeUsers", "Users")
+                        .WithMany()
+                        .HasForeignKey("UsersUser_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("CooperativeFinancing.Models.CooperativeMembers", b =>
+                {
+                    b.Navigation("CooperativeLoans");
+                });
+
+            modelBuilder.Entity("CooperativeFinancing.Models.ViewModels.LoginDetailsView", b =>
+                {
+                    b.Navigation("Members");
                 });
 #pragma warning restore 612, 618
         }

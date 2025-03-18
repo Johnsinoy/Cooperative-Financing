@@ -1,0 +1,13 @@
+﻿@{
+    var addMemberUrl = Url.Action("AddMemberPage", "Admin", new { area = "Admin" });
+    var addLoanUrl = Url.Action("AddLoanPage", "Admin", new { area = "Admin" });
+    var addLoginUrl = Url.Action("AddLoginDetails", "Admin", new { area = "Admin" });
+}
+<div class="dropdown">
+    <button class="dropdown-btn">ADMINISTRATIVE</button>
+    <div class="dropdown-content">
+        <a href="@addMemberUrl" class="nav-button">Add a Member</a>
+        <a href="@addLoanUrl" class="nav-button">Loan Application</a>
+        <a href="@addLoginUrl" class="nav-button">File Login Details</a>
+    </div>
+</div>

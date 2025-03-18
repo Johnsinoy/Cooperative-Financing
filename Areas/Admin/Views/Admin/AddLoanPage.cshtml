@@ -1,0 +1,147 @@
+﻿@model CooperativeFinancing.Models.CooperativeLoans
+
+@{
+    ViewData["Title"] = "Add New Loan";
+    var dashboardUrl = Url.Action("Index", "Admin", new { area = "Admin" });
+    var members = ViewBag.Members as List<CooperativeFinancing.Models.CooperativeMembers>; // Fetch members list from controller
+}
+
+<link rel="stylesheet" href="~/css/add-member.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/admin-dashboard.css" asp-append-version="true" />
+
+@await Html.PartialAsync("_AdminHeader")
+
+<!-- Display Validation Errors -->
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="error-message">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p style="color: red;">@error.ErrorMessage</p>
+        }
+    </div>
+}
+
+<div class="container">
+    <h1 class="form-title">Add New Loan</h1>
+
+    <form class="loan-form" asp-area="Admin" asp-controller="Admin" asp-action="AddLoanPage" method="post">
+        @Html.AntiForgeryToken()
+
+        <!-- Select Member -->
+        <div class="form-group">
+            <label for="memberId">Select Member</label>
+            <select id="memberId" class="searchable-dropdown" required>
+                <option value="">-- Select a Member --</option>
+                @foreach (var member in members)
+                {
+                    <option value="@member.Member_Id">@member.FirstName @member.LastName</option>
+                }
+            </select>
+        </div>
+
+        <!-- Display Member ID (Read-Only) -->
+        <div class="form-group">
+            <label for="selectedMemberId">Selected Member ID</label>
+            <input type="text" id="selectedMemberId" name="Member_Id" readonly required>
+        </div>
+
+        <!-- Hidden Input to Submit Member ID -->
+        <input type="hidden" id="hiddenMemberId" name="Member_Id">
+
+        <!-- Loan Amount -->
+        <div class="form-group">
+            <label for="loanAmount">Loan Amount</label>
+            <input type="number" id="loanAmount" name="Loan_Amount" step="0.01" required>
+        </div>
+
+        <!-- Purpose of Loan -->
+        <div class="form-group">
+            <label for="purposeLoan">Purpose of Loan</label>
+            <input type="text" id="purposeLoan" name="Purpose_Loan" required>
+        </div>
+
+        <!-- Annual Interest Rate -->
+        <div class="form-group">
+            <label for="annualInterest">Annual Interest (%)</label>
+            <input type="number" id="annualInterest" name="Annual_Interest" step="0.01" required>
+        </div>
+
+        <!-- Loan Term -->
+        <div class="form-group">
+            <label for="term">Term (Months)</label>
+            <input type="number" id="term" name="Term" required>
+        </div>
+
+        <!-- Release Date -->
+        <div class="form-group">
+            <label for="releaseDate">Release Date</label>
+            <input type="date" id="releaseDate" name="Release_Date" required>
+        </div>
+
+        <!-- First Payment Date -->
+        <div class="form-group">
+            <label for="firstMonth">First Payment Date</label>
+            <input type="date" id="firstMonth" name="First_Month" required>
+        </div>
+
+        <!-- End Month -->
+        <div class="form-group">
+            <label for="endMonth">End Date</label>
+            <input type="date" id="endMonth" name="End_Month" required>
+        </div>
+
+        <!-- Monthly Payment -->
+        <div class="form-group">
+            <label for="monthlyPayment">Monthly Payment</label>
+            <input type="number" id="monthlyPayment" name="Monthly_Payment" step="0.01" required>
+        </div>
+
+        <!-- Total Payment -->
+        <div class="form-group">
+            <label for="totalPayment">Total Payment</label>
+            <input type="number" id="totalPayment" name="Total_Payment" step="0.01" required>
+        </div>
+
+        <!-- Loan Status -->
+        <div class="form-group">
+            <label for="status">Loan Status</label>
+            <select id="status" name="Status" required>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Active</option>
+                <option value="Rejected">Rejected</option>
+                <option value="Paid">Paid</option>
+            </select>
+        </div>
+
+        <button type="submit" class="submit-btn">Add Loan</button>
+    </form>
+
+    <a href="@dashboardUrl" class="back-link">Back to Dashboard</a>
+</div>
+
+<!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $(".searchable-dropdown").select2({
+            placeholder: "-- Select a Member --",
+            allowClear: true,
+            width: '100%'
+        });
+
+        // ✅ Update the Member ID field when a member is selected
+        $("#memberId").on("change", function () {
+            let selectedValue = $(this).val();
+            $("#selectedMemberId").val(selectedValue); // Show ID in the text field
+            $("#hiddenMemberId").val(selectedValue); // Set hidden input for form submission
+        });
+    });
+</script>

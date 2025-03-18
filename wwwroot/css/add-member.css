@@ -1,0 +1,110 @@
+﻿/* Apply the same background as the header */
+body {
+    background: linear-gradient(to right, #00bcd4, #64dd17, #ffeb3b); /* ✅ Same as header */
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+/* Page Styling */
+.container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Title */
+.form-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Form Layout */
+.member-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-between;
+}
+
+/* Form Group */
+.form-group {
+    flex: 1 1 calc(50% - 10px);
+    display: flex;
+    flex-direction: column;
+}
+
+    .form-group label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .form-group input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: border 0.3s ease-in-out;
+    }
+
+        .form-group input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+/* Full-width for Date & Contribution Fields */
+#joinDate, #contribution {
+    flex: 1 1 100%;
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #00bcd4, #64dd17);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    text-align: center;
+}
+
+    /* Hover Effect */
+    .submit-btn:hover {
+        background: linear-gradient(135deg, #0097a7, #43a047);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Active (When Clicked) */
+    .submit-btn:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        background: linear-gradient(135deg, #007bff, #2196f3);
+    }
+
+/* Back to Dashboard */
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
