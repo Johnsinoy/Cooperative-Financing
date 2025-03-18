@@ -1,4 +1,4 @@
-/* Header Styling */
+﻿/* Header Styling */
 .header {
     display: flex;
     justify-content: space-around;
@@ -226,3 +226,10 @@ media (max-width: 768px) {
         background: #e0f7fa;
         transition: 0.3s ease-in-out;
     }
+.count {
+    font-size: 24px; /* ✅ Make the number larger */
+    font-weight: bold;
+    color: #ffeb3b; /* ✅ Highlight it with a yellow color */
+    display: block;
+    margin-top: 10px;
+}

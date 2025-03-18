@@ -2,6 +2,7 @@
 using CooperativeFinancing.Models;
 using System;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace CooperativeFinancing.Areas.Admin.Controllers
 {
@@ -18,6 +19,44 @@ namespace CooperativeFinancing.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            try
+            {
+                // ✅ Ensure the database query is retrieving data
+                int totalMembers = _context.CooperativeMembers.Count();
+                Console.WriteLine($"🟢 Total Members Retrieved: {totalMembers}"); // ✅ Debug Log
+                ViewBag.TotalMembers = totalMembers; // ✅ Pass data to ViewBag
+                // ✅ Fetch total contribution sum
+                decimal totalContributions = _context.CooperativeMembers.Sum(m => (decimal?)m.Contribution) ?? 0;
+                ViewBag.TotalContributions = totalContributions;
+                // ✅ Fetch total loan amount sum (handles null values)
+                decimal totalLoanAmount = _context.CooperativeLoans.Sum(l => (decimal?)l.Loan_Amount) ?? 0;
+                ViewBag.TotalLoanAmount = totalLoanAmount;
+                // ✅ Calculate Money on Hand
+                decimal moneyOnHand = totalContributions - totalLoanAmount;
+                ViewBag.MoneyOnHand = moneyOnHand;
+
+                decimal totalPayments = _context.CooperativePayment.Sum(p => (decimal?)p.Payment_Amount) ?? 0;
+                ViewBag.TotalPayments = totalPayments;
+
+                decimal balanceToCollect = totalLoanAmount - totalPayments;
+                ViewBag.BalanceToCollect = balanceToCollect;
+
+                int activeLoans = _context.CooperativeLoans.Count(l => l.Status == "Active");
+                ViewBag.ActiveLoans = activeLoans;
+
+                int approvedLoans = _context.CooperativeLoans.Count(l => l.Status == "Approved");
+                ViewBag.ApprovedLoans = approvedLoans;
+
+                int completedLoans = _context.CooperativeLoans.Count(l => l.Status == "Paid");
+                ViewBag.CompletedLoans = completedLoans;
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.TotalMembers = "Error"; // ✅ If an error occurs, show "Error"
+                Console.WriteLine("🔴 Error fetching total members: " + ex.Message);
+            }
+
             return View();
         }
 
@@ -207,16 +246,26 @@ namespace CooperativeFinancing.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddLoanPage([FromForm] CooperativeLoans loan)
+        public async Task<IActionResult> AddLoanPage([FromForm] CooperativeLoans loan, [FromForm] int Member_Id)
         {
             Console.WriteLine("🟢 AddLoanPage (POST) method triggered!");
 
-            if (!ModelState.IsValid)
+            // ✅ Ensure the Member_Id is correctly assigned from the form
+            loan.Member_Id = Member_Id;
+            Console.WriteLine($"🟢 Received Member ID: {loan.Member_Id}");
+
+            if (!ModelState.IsValid || loan.Member_Id == 0)
             {
-                Console.WriteLine("🔴 Model state is invalid.");
-                var members = _context.CooperativeMembers.ToList(); // Fetch members again for dropdown
+                Console.WriteLine("🔴 Model state is invalid OR Member_Id is missing.");
+                var members = _context.CooperativeMembers.ToList();
                 ViewBag.Members = members;
-                return View("AddLoanPage", loan); // Return the view with validation errors
+
+                if (loan.Member_Id == 0)
+                {
+                    ModelState.AddModelError("Member_Id", "Please select a valid member.");
+                }
+
+                return View("AddLoanPage", loan);
             }
 
             try
@@ -233,11 +282,13 @@ namespace CooperativeFinancing.Areas.Admin.Controllers
             {
                 Console.WriteLine($"🔴 SERVER ERROR: {ex.Message}");
                 ModelState.AddModelError("", "An error occurred while saving the loan.");
-                var members = _context.CooperativeMembers.ToList(); // Fetch members again for dropdown
+                var members = _context.CooperativeMembers.ToList();
                 ViewBag.Members = members;
-                return View("AddLoanPage", loan); // Return the view with the model and error message
+                return View("AddLoanPage", loan);
             }
         }
+
+
 
         [HttpGet]
         public IActionResult AddLoginDetails()
@@ -290,6 +341,6 @@ namespace CooperativeFinancing.Areas.Admin.Controllers
                 return View("AddLoginDetails", users); // Return the view with the model and error message
             }
         }
-      
+
     }
 }

@@ -1,0 +1,15 @@
+﻿@{
+    var generatePdfUrl = Url.Action("GenerateMemberListPdf", "Member", new { area = "Admin" }); // ✅ PDF URL
+    var generateLoanPdfUrl = Url.Action("GenerateLoanListPdf", "Loan", new { area = "Admin" }); // ✅ PDF URL
+}
+
+<!-- Dropdown Menu -->
+<div class="dropdown">
+    <button class="dropdown-btn">Report</button>
+    <div class="dropdown-content">
+        <a href="@generatePdfUrl" class="nav-button" download>Member List</a> <!-- ✅ Directly triggers PDF download -->
+        <a href="@generateLoanPdfUrl" class="nav-button">Loan List</a>
+    </div>
+</div>
+
+<!-- ✅ No need for AJAX since we are now downloading a PDF directly -->

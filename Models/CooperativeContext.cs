@@ -16,6 +16,7 @@ namespace CooperativeFinancing.Models
 
         public DbSet<MemberLoanDetails> MemberLoanDetails { get; set; }
         public DbSet<MemberPaymentsView> MemberPaymentsView { get; set; }
+        public DbSet<LoginDetailsView> UserMembersView { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,6 +28,8 @@ namespace CooperativeFinancing.Models
             // ✅ Ensure the MySQL View is mapped correctly
             modelBuilder.Entity<MemberPaymentsView>().ToView("MemberPaymentsView").HasKey(p => p.Payment_Id);
 
+            // ✅ Ensure the MySQL View is mapped correctly
+            modelBuilder.Entity<LoginDetailsView>().ToView("UserMembersView").HasKey(u => u.User_Id);
 
 
             // Seeding CooperativeMembers

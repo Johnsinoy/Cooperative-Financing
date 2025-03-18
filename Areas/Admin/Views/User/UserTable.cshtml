@@ -1,4 +1,4 @@
-﻿@model List<CooperativeFinancing.Models.ViewModels.PaymentViewModel>
+﻿@model List<CooperativeFinancing.Models.ViewModels.LoginDetailsView>
 @{
     var loanTable = Url.Action("LoanTable", "Loan", new { area = "Admin" });
     var paymentTable = Url.Action("PaymentTable", "Payment", new { area = "Admin" });
@@ -18,30 +18,28 @@
         <button onclick="window.location.href='@Url.Action("Index", "Admin")'">HOME</button>
         <button id="members-btn">MEMBERS</button>
         <button id="loans-btn">LOANS</button>
-        <button id="payment-btn" class="active">PAYMENTS</button>
-        <button id="usertable-btn">USER</button>
+        <button id="payment-btn">PAYMENTS</button>
+        <button id="usertable-btn" class="active">USER</button>
     </aside>
     <main class="main-content">
 
         <table class="member-table">
             <thead>
                 <tr>
-                    <th>Payment ID</th>
-                    <th>Member Name</th> <!-- ✅ Correctly shows Member Name -->
-                    <th>Loan ID</th>
-                    <th>Payment Date</th>
-                    <th>Payment Amount</th>
+                    <th>User ID</th>
+                    <th>Member Name</th> <!-- ✅ Shows Full Name -->
+                    <th>Username</th>
+                    <th>Is Admin</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var payment in Model)
+                @foreach (var user in Model)
                 {
                     <tr>
-                        <td>@payment.Payment.Payment_Id</td>
-                        <td>@payment.Member_Name</td> <!-- ✅ Fix: Displays Member Name -->
-                        <td>@payment.Payment.Loan_Id</td>
-                        <td>@payment.Payment.Payment_Date.ToString("yyyy-MM-dd")</td>
-                        <td>@payment.Payment.Payment_Amount.ToString("C")</td>
+                        <td>@user.User_Id</td>
+                        <td>@user.Member_Name</td> <!-- ✅ Corrected reference -->
+                        <td>@user.Username</td>
+                        <td>@(user.Is_Admin ? "Yes" : "No")</td>
                     </tr>
                 }
             </tbody>

@@ -16,9 +16,22 @@
 
     <!-- Main Content -->
     <div class="main-content">
-        <h1 class="welcome-text">WELCOME, <span class="member-name">"Member Name"</span></h1>
+        <h1 class="welcome-text">
+            WELCOME, <span class="member-name">
+                @if (Context.Session.GetString("Username") != null)
+                {
+                    @Context.Session.GetString("Username") <!-- ✅ Displays logged-in username -->
+                }
+                else
+                {
+                    @("Guest") <!-- ✅ Fallback for non-logged-in users -->
+                }
+            </span>
+        </h1>
+
         <div class="profile-section">
             <p class="profile-text">Member Profile Details</p>
         </div>
     </div>
+
 </div>
