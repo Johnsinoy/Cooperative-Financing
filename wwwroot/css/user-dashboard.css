@@ -1,118 +1,121 @@
-/* Dashboard Layout */
+﻿/* ✅ Dashboard Background */
 .dashboard-container {
     display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100vh;
     background: linear-gradient(to right, #00bcd4, #fdd835);
     padding: 20px;
-    align-items: flex-start;
 }
 
-/* Sidebar */
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 250px;
-    flex-shrink: 0;
-    height: 100%;
-}
-
-    .sidebar button {
-        width: 100%;
-        padding: 15px;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        text-align: center;
-        cursor: pointer;
-        background: white;
-        transition: all 0.3s ease-in-out;
-    }
-
-        .sidebar button:hover {
-            background: #ddd;
-        }
-
-    .sidebar .active {
-        background: #00796b;
-        color: white;
-        font-weight: bold;
-    }
-
-/* Main Content */
-.main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding-left: 40px;
-    margin-top: 20px;
-}
-
-/* Welcome Text */
-.welcome-text {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.member-name {
-    font-weight: normal;
-    color: #333;
-}
-
-/* Profile Section */
-.profile-section {
-    background: #606060;
-    color: white;
-    padding: 50px;
+/* ✅ Profile Card */
+.profile-card {
+    background: white;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
     text-align: center;
-    font-weight: bold;
+}
+
+/* ✅ Header Section */
+.profile-header {
+    background: linear-gradient(to right, #007bff, #00bcd4);
+    color: white;
+    padding: 20px;
+}
+
+    .profile-header h1 {
+        font-size: 24px;
+        margin-bottom: 5px;
+    }
+
+    .profile-header p {
+        font-size: 14px;
+        opacity: 0.9;
+    }
+
+/* ✅ Profile Body */
+.profile-body {
+    padding: 20px;
+}
+
+    .profile-body h2 {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+/* ✅ Profile Table */
+.profile-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+    .profile-table th {
+        text-align: left;
+        background: #007bff;
+        color: white;
+        padding: 10px;
+        width: 40%;
+    }
+
+    .profile-table td {
+        padding: 10px;
+        color: #333;
+        background: #f8f9fa;
+    }
+
+    .profile-table tr:nth-child(even) td {
+        background: #e9ecef;
+    }
+
+/* ✅ Action Buttons */
+.profile-actions {
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.edit-btn, .logout-btn {
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
     border-radius: 5px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    width: 80%;
-    max-width: 800px;
-    margin-top: 30px;
+    transition: 0.3s;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .dashboard-container {
-        flex-direction: column;
-        height: auto;
-    }
-
-    .sidebar {
-        flex-direction: row;
-        width: 100%;
-        justify-content: space-around;
-        padding-bottom: 10px;
-    }
-
-        .sidebar button {
-            width: auto;
-            flex: 1;
-            padding: 12px;
-            font-size: 14px;
-        }
-
-    .main-content {
-        align-items: center;
-        padding-left: 0;
-    }
-
-    .profile-section {
-        width: 90%;
-    }
+.edit-btn {
+    background: #007bff;
+    color: white;
 }
 
+.logout-btn {
+    background: #dc3545;
+    color: white;
+}
+
+.edit-btn:hover {
+    background: #0056b3;
+}
+
+.logout-btn:hover {
+    background: #c82333;
+}
+
+/* ✅ Responsive Design */
 @media (max-width: 768px) {
-    .sidebar {
-        flex-direction: column;
-        align-items: center;
+    .profile-card {
+        width: 100%;
+        max-width: 100%;
     }
 
-    .profile-section {
-        width: 100%;
+    .profile-actions {
+        flex-direction: column;
     }
 }

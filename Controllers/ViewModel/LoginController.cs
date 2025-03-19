@@ -40,19 +40,29 @@ namespace CooperativeFinancing.Controllers.ViewModel
 
             // ✅ Query the database for the user
             var user = _context.CooperativeUsers
+                .Include(u => u.CooperativeMember) // ✅ Ensure Member Data is Available
                 .FirstOrDefault(u => u.Username == model.Username && u.Password == model.Password);
 
             if (user != null) // ✅ User exists in the database
             {
-                // ✅ Determine user role (Admin or User)
                 string userRole = user.Is_Admin ? "Admin" : "User";
 
-                // ✅ Store session data
                 HttpContext.Session.SetString("UserLoggedIn", "true");
                 HttpContext.Session.SetString("UserRole", userRole);
                 HttpContext.Session.SetString("Username", user.Username);
+                HttpContext.Session.SetString("UserEmail", user.CooperativeMember?.Email ?? "Not Available");
+                HttpContext.Session.SetString("UserStreet", user.CooperativeMember?.Street ?? "Not Available");
+                HttpContext.Session.SetString("UserCity", user.CooperativeMember?.City ?? "Not Available");
+                HttpContext.Session.SetString("UserProvince", user.CooperativeMember?.Province ?? "Not Available");
+                HttpContext.Session.SetString("UserPhone", user.CooperativeMember?.Phone ?? "Not Available");
+                HttpContext.Session.SetString("UserJoinDate", user.CooperativeMember?.JoinDate.ToString("yyyy-MM-dd") ?? "Not Available");
+                HttpContext.Session.SetString("UserContribution", user.CooperativeMember?.Contribution.ToString() ?? "0");
+                HttpContext.Session.SetString("UserMemberId", user.CooperativeMember?.Member_Id.ToString() ?? "N/A");
 
-                // ✅ Redirect to dashboard based on role
+                // ✅ Store First Name and Last Name
+                HttpContext.Session.SetString("UserFirstName", user.CooperativeMember?.FirstName ?? "Unknown");
+                HttpContext.Session.SetString("UserLastName", user.CooperativeMember?.LastName ?? "Unknown");
+
                 return RedirectToAction("Index", userRole, new { area = userRole == "Admin" ? "Admin" : "Users" });
             }
 
