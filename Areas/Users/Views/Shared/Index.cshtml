@@ -1,5 +1,21 @@
 ﻿@{
     ViewData["Title"] = "Member Dashboard";
+
+    // ✅ Fetch user details from session
+    string firstName = Context.Session.GetString("UserFirstName") ?? "Guest";
+    string lastName = Context.Session.GetString("UserLastName") ?? "";
+    string username = Context.Session.GetString("Username") ?? "Guest";
+    string email = Context.Session.GetString("UserEmail") ?? "Not Available";
+    string street = Context.Session.GetString("UserStreet") ?? "Not Available";
+    string city = Context.Session.GetString("UserCity") ?? "Not Available";
+    string province = Context.Session.GetString("UserProvince") ?? "Not Available";
+    string phone = Context.Session.GetString("UserPhone") ?? "Not Available";
+    string joinDate = Context.Session.GetString("UserJoinDate") ?? "Not Available";
+    string contribution = Context.Session.GetString("UserContribution") ?? "0";
+    string memberId = Context.Session.GetString("UserMemberId") ?? "N/A";
+    string loansUrl = Url.Action("LoanPage", "Loan", new { area = "Users" });
+    string paymentsUrl = Url.Action("MemberPayments", "Payment", new { area = "Users" });
+    string calculatorUrl = Url.Action("LoanCalculator", "Loan", new { area = "Users" });
 }
 
 <!-- Link to External CSS -->
@@ -9,29 +25,55 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <button class="active">HOME</button>
-        <button>LOANS</button>
-        <button>PAYMENTS</button>
-        <button>Loan Calculator</button>
+        <button onclick="window.location.href='@loansUrl'">LOANS</button>
+        <button onclick="window.location.href='@paymentsUrl'">PAYMENTS</button>
+        <button onclick="window.location.href='@calculatorUrl'">Loan Calculator</button>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
         <h1 class="welcome-text">
-            WELCOME, <span class="member-name">
-                @if (Context.Session.GetString("Username") != null)
-                {
-                    @Context.Session.GetString("Username") <!-- ✅ Displays logged-in username -->
-                }
-                else
-                {
-                    @("Guest") <!-- ✅ Fallback for non-logged-in users -->
-                }
-            </span>
+            WELCOME, <span class="member-name">@firstName @lastName</span>
         </h1>
 
-        <div class="profile-section">
-            <p class="profile-text">Member Profile Details</p>
+        <div class="profile-container">
+            <h2 class="profile-header">Member Profile</h2>
+            <p class="profile-id">Member ID: @memberId</p>
+
+            <hr />
+
+            <table class="profile-table">
+                <tbody>
+                    <tr>
+                        <th>Street</th>
+                        <td>@street</td>
+                    </tr>
+                    <tr>
+                        <th>City</th>
+                        <td>@city</td>
+                    </tr>
+                    <tr>
+                        <th>Province</th>
+                        <td>@province</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>@email</td>
+                    </tr>
+                    <tr>
+                        <th>Phone</th>
+                        <td>@phone</td>
+                    </tr>
+                    <tr>
+                        <th>Join Date</th>
+                        <td>@joinDate</td>
+                    </tr>
+                    <tr>
+                        <th>Contribution</th>
+                        <td>@contribution</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-
 </div>

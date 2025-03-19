@@ -39,6 +39,6 @@ namespace CooperativeFinancing.Models
 
         // ✅ Navigation Property: One Member → Many Loans
         public virtual ICollection<CooperativeLoans> CooperativeLoans { get; set; } = new List<CooperativeLoans>();
-
+        public ICollection<CooperativeUsers> CooperativeUsers { get; set; } // ✅ One-to-Many Relationship
     }
 }
