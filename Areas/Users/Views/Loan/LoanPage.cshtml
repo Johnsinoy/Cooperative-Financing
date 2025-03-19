@@ -5,7 +5,12 @@
     var loans = ViewBag.Loans as List<CooperativeFinancing.Models.CooperativeLoans> ?? new List<CooperativeFinancing.Models.CooperativeLoans>();
 
     // Loan Application URL
-    var applyLoanUrl = Url.Action("ApplyLoan", "Loan", new { area = "Users" });
+    var applyLoanUrl = Url.Action("LoanApplication", "Loan", new { area = "Users" });
+    // Loan Application URL
+    // ✅ Define the Home/Login URL
+    var homeUrl = Url.Action("Index", "User", new { area = "Users" });
+
+
 }
 
 
@@ -15,7 +20,7 @@
 <div class="dashboard-container">
     <!-- Sidebar -->
     <div class="sidebar">
-        <button>HOME</button>
+        <button onclick="window.location.href='@homeUrl'">HOME</button>
         <button class=" active"'">LOANS</button>
         <button>PAYMENTS</button>
         <button>Loan Calculator</button>

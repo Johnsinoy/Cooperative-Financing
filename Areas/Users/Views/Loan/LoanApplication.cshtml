@@ -1,5 +1,138 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Apply for a Loan";
+
+    // Define URL for form submission
+    var submitLoanUrl = Url.Action("SubmitLoan", "Loan", new { area = "Users" });
+
+    // Define URL for home navigation
+    var homeUrl = Url.Action("Index", "User", new { area = "Users" });
 }
+
+<!-- Link to External CSS -->
+<link rel="stylesheet" href="~/css/user-dashboard.css" asp-append-version="true" />
+
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <button onclick="window.location.href='@homeUrl'">HOME</button>
+        <button class="active">APPLY FOR A LOAN</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="page-title">Apply for a Loan</h1>
+        <p>Please complete the form below to submit a loan application.</p>
+
+        <form method="post" action="@Url.Action("ApplyLoan", "Loan", new { area = "Users" })" enctype="application/x-www-form-urlencoded">
+            @Html.AntiForgeryToken() <!-- Prevent CSRF attacks -->
+
+            <div class="form-group">
+                <label asp-for="Loan_Amount">Loan Amount</label>
+                <input asp-for="Loan_Amount" class="form-control" name="Loan_Amount" required min="1">
+                <span asp-validation-for="Loan_Amount" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Purpose_Loan">Purpose</label>
+                <input asp-for="Purpose_Loan" class="form-control" name="Purpose_Loan" required>
+                <span asp-validation-for="Purpose_Loan" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Annual_Interest">Annual Interest Rate (%)</label>
+                <input asp-for="Annual_Interest" class="form-control" name="Annual_Interest" value="12" readonly>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Term">Loan Term (Months)</label>
+                <select asp-for="Term" class="form-control" name="Term" required>
+                    <option value="12">12 Months</option>
+                    <option value="24">24 Months</option>
+                    <option value="36">36 Months</option>
+                </select>
+            </div>
+
+            <!-- Hidden field to ensure Status is submitted -->
+            <input type="hidden" asp-for="Status" name="Status" value="Pending">
+
+            <button type="submit" class="submit-loan-btn">Submit Loan Application</button>
+        </form>
+
+
+    </div>
+</div>
+
+<!-- JavaScript for Automatic Calculations -->
+<script>
+    function updateMonths() {
+        let releaseDate = document.getElementById("ReleaseDate").value;
+        let term = parseInt(document.getElementById("Term").value);
+
+        if (releaseDate) {
+            let release = new Date(releaseDate);
+            let firstMonth = new Date(release);
+            firstMonth.setMonth(firstMonth.getMonth() + 1);
+
+            let endMonth = new Date(release);
+            endMonth.setMonth(endMonth.getMonth() + term);
+
+            document.getElementById("FirstMonth").value = firstMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+            document.getElementById("EndMonth").value = endMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        }
+    }
+
+    function calculatePayments() {
+        let amount = parseFloat(document.getElementById("Amount").value) || 0;
+        let term = parseInt(document.getElementById("Term").value);
+        let interestRate = 12 / 100 / 12; // Monthly interest rate (12% annual)
+
+        if (amount > 0 && term) {
+            let monthlyPayment = (amount * interestRate) / (1 - Math.pow(1 + interestRate, -term));
+            let totalPayment = monthlyPayment * term;
+
+            document.getElementById("MonthlyPayment").value = monthlyPayment.toFixed(2);
+            document.getElementById("TotalPayment").value = totalPayment.toFixed(2);
+        }
+    }
+</script>
+
+<!-- CSS Styling -->
+<style>
+    .loan-form {
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+    .submit-loan-btn {
+        background: #28a745;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .submit-loan-btn:hover {
+            background: #218838;
+        }
+</style>
