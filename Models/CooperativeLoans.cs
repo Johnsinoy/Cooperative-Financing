@@ -19,10 +19,10 @@ namespace CooperativeFinancing.Models
         public decimal Loan_Amount { get; set; }
 
         [Required]
-        public string Purpose_Loan { get; set; }
+        public string Purpose_Loan { get; set; } = "Business";
 
         [Required]
-        public float Annual_Interest { get; set; }
+        public float Annual_Interest { get; set; } = 12; // ✅ Default interest rate
 
         [Required]
         public int Term { get; set; }
@@ -43,7 +43,7 @@ namespace CooperativeFinancing.Models
         public decimal Total_Payment { get; set; }
 
         [Required]
-        public string Status { get; set; }
+         public string Status { get; set; } = "Pending"; // ✅ Default status
 
 
     }

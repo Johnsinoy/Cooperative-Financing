@@ -1,0 +1,172 @@
+﻿@{
+    ViewData["Title"] = "Loans Page";
+
+    // Simulated data for loans (Replace with actual data from database)
+    var loans = ViewBag.Loans as List<CooperativeFinancing.Models.CooperativeLoans> ?? new List<CooperativeFinancing.Models.CooperativeLoans>();
+
+    // Loan Application URL
+    var applyLoanUrl = Url.Action("LoanApplication", "Loan", new { area = "Users" });
+    // Loan Application URL
+    // ✅ Define the Home/Login URL
+    var homeUrl = Url.Action("Index", "User", new { area = "Users" });
+
+
+}
+
+
+<!-- Link to External CSS -->
+<link rel="stylesheet" href="~/css/user-dashboard.css" asp-append-version="true" />
+
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <button onclick="window.location.href='@homeUrl'">HOME</button>
+        <button class=" active"'">LOANS</button>
+        <button>PAYMENTS</button>
+        <button>Loan Calculator</button>
+    </div>
+
+    <div class="loan-container">
+        <div class="loan-header">
+            <h1>My Loans</h1>
+            <p>You can view your loan history and apply for a new loan.</p>
+            <button onclick="window.location.href='@applyLoanUrl'" class="apply-loan-btn">Apply for a Loan</button>
+        </div>
+
+        <!-- Loan Table -->
+        <div class="loan-table-container">
+            <table class="loan-table">
+                <thead>
+                    <tr>
+                        <th>Loan ID</th>
+                        <th>Amount</th>
+                        <th>Purpose</th>
+                        <th>Annual Interest</th>
+                        <th>Term (Months)</th>
+                        <th>Release Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (loans.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="7" class="no-loans">No loans found.</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var loan in loans)
+                        {
+                            <tr>
+                                <td>@loan.Loan_Id</td>
+                                <td>@loan.Loan_Amount.ToString("C")</td>
+                                <td>@loan.Purpose_Loan</td>
+                                <td>@loan.Annual_Interest %</td>
+                                <td>@loan.Term</td>
+                                <td>@loan.Release_Date.ToString("yyyy-MM-dd")</td>
+                                <td class="status-@(loan.Status.ToLower())">@loan.Status</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- CSS Styling for the Loan Page -->
+<style>
+    /* ✅ Loan Page Container */
+    .loan-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+
+    /* ✅ Loan Header */
+    .loan-header h1 {
+        font-size: 26px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .loan-header p {
+        color: #555;
+        font-size: 14px;
+    }
+
+    /* ✅ Apply Loan Button */
+    .apply-loan-btn {
+        background: #007bff;
+        color: white;
+        padding: 12px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: 0.3s;
+    }
+
+        .apply-loan-btn:hover {
+            background: #0056b3;
+        }
+
+    /* ✅ Loan Table */
+    .loan-table-container {
+        margin-top: 20px;
+        overflow-x: auto;
+    }
+
+    .loan-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .loan-table th {
+            background: #007bff;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .loan-table td {
+            padding: 12px;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .loan-table tr:nth-child(even) td {
+            background: #e9ecef;
+        }
+
+    /* ✅ Status Styling */
+    .status-approved {
+        color: green;
+        font-weight: bold;
+    }
+
+    .status-pending {
+        color: orange;
+        font-weight: bold;
+    }
+
+    .status-rejected {
+        color: red;
+        font-weight: bold;
+    }
+
+    .no-loans {
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        color: #555;
+        padding: 15px;
+    }
+</style>

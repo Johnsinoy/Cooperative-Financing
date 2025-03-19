@@ -11,7 +11,10 @@ namespace CooperativeFinancing.Models
         public int User_Id { get; set; }
 
         [Required]
-        public int Member_Id { get; set; }  // ✅ Ensure correct Foreign Key
+        [ForeignKey("CooperativeMember")] // ✅ Foreign Key linking to CooperativeMembers
+        public int Member_Id { get; set; }
+        public CooperativeMembers CooperativeMember { get; set; } // ✅ Navigation Property (Singular Name)
+
 
         [Required]
         public string Username { get; set; }

@@ -1,118 +1,142 @@
-/* Dashboard Layout */
+﻿/* ✅ Dashboard Background */
 .dashboard-container {
     display: flex;
-    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     background: linear-gradient(to right, #00bcd4, #fdd835);
     padding: 20px;
-    align-items: flex-start;
 }
 
-/* Sidebar */
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 250px;
-    flex-shrink: 0;
-    height: 100%;
-}
-
-    .sidebar button {
-        width: 100%;
-        padding: 15px;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        text-align: center;
-        cursor: pointer;
-        background: white;
-        transition: all 0.3s ease-in-out;
-    }
-
-        .sidebar button:hover {
-            background: #ddd;
-        }
-
-    .sidebar .active {
-        background: #00796b;
-        color: white;
-        font-weight: bold;
-    }
-
-/* Main Content */
-.main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding-left: 40px;
-    margin-top: 20px;
-}
-
-/* Welcome Text */
-.welcome-text {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.member-name {
-    font-weight: normal;
-    color: #333;
-}
-
-/* Profile Section */
-.profile-section {
-    background: #606060;
-    color: white;
-    padding: 50px;
+/* ✅ Profile Card */
+.profile-card {
+    background: white;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 12px;
+    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
     text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+    .profile-card:hover {
+        transform: translateY(-5px);
+    }
+
+/* ✅ Header Section */
+.profile-header {
+    background: linear-gradient(to right, #007bff, #00bcd4);
+    color: white;
+    padding: 20px;
+}
+
+    .profile-header h1 {
+        font-size: 26px;
+        margin-bottom: 5px;
+        font-weight: 600;
+    }
+
+    .profile-header p {
+        font-size: 15px;
+        opacity: 0.9;
+    }
+
+/* ✅ Profile Body */
+.profile-body {
+    padding: 20px;
+}
+
+    .profile-body h2 {
+        font-size: 22px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+/* ✅ Profile Table */
+.profile-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+    .profile-table th {
+        text-align: left;
+        background: #007bff;
+        color: white;
+        padding: 12px;
+        font-weight: bold;
+        width: 40%;
+        border-bottom: 2px solid #0056b3;
+    }
+
+    .profile-table td {
+        padding: 12px;
+        color: #333;
+        background: #f8f9fa;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .profile-table tr:nth-child(even) td {
+        background: #e9ecef;
+    }
+
+/* ✅ Action Buttons */
+.profile-actions {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.edit-btn, .logout-btn {
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
     font-weight: bold;
-    border-radius: 5px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    width: 80%;
-    max-width: 800px;
-    margin-top: 30px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: 0.3s;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .dashboard-container {
-        flex-direction: column;
-        height: auto;
-    }
-
-    .sidebar {
-        flex-direction: row;
-        width: 100%;
-        justify-content: space-around;
-        padding-bottom: 10px;
-    }
-
-        .sidebar button {
-            width: auto;
-            flex: 1;
-            padding: 12px;
-            font-size: 14px;
-        }
-
-    .main-content {
-        align-items: center;
-        padding-left: 0;
-    }
-
-    .profile-section {
-        width: 90%;
-    }
+.edit-btn {
+    background: #007bff;
+    color: white;
 }
 
+.logout-btn {
+    background: #dc3545;
+    color: white;
+}
+
+.edit-btn:hover {
+    background: #0056b3;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.logout-btn:hover {
+    background: #c82333;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* ✅ Responsive Design */
 @media (max-width: 768px) {
-    .sidebar {
+    .profile-card {
+        width: 100%;
+        max-width: 100%;
+        margin: 10px;
+    }
+
+    .profile-actions {
         flex-direction: column;
         align-items: center;
     }
 
-    .profile-section {
-        width: 100%;
+    .edit-btn, .logout-btn {
+        width: 80%;
+        text-align: center;
     }
 }
