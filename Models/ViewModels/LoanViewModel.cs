@@ -5,6 +5,7 @@
         public CooperativeLoans Loan { get; set; } = new CooperativeLoans();
         public List<CooperativeMembers> Members { get; set; } = new List<CooperativeMembers>();
 
+        public int Loan_Id { get; set; }  // ✅ Add this missing property
         public int Member_Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
