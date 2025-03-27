@@ -21,44 +21,102 @@ namespace CooperativeFinancing.Areas.Admin.Controllers
         {
             try
             {
-                // ✅ Ensure the database query is retrieving data
+                Console.WriteLine("🚀 Index method triggered!");
+
+                // ✅ Ensure the database context is initialized
+                if (_context == null)
+                {
+                    Console.WriteLine("❌ ERROR: Database context is null!");
+                    return View();
+                }
+
+                // ✅ Fetch total members
                 int totalMembers = _context.CooperativeMembers.Count();
-                Console.WriteLine($"🟢 Total Members Retrieved: {totalMembers}"); // ✅ Debug Log
-                ViewBag.TotalMembers = totalMembers; // ✅ Pass data to ViewBag
-                // ✅ Fetch total contribution sum
+                ViewBag.TotalMembers = totalMembers;
+                Console.WriteLine($"🟢 Total Members Retrieved: {totalMembers}");
+
+                // ✅ Fetch total contributions sum (handles null values)
                 decimal totalContributions = _context.CooperativeMembers.Sum(m => (decimal?)m.Contribution) ?? 0;
                 ViewBag.TotalContributions = totalContributions;
+                Console.WriteLine($"🟢 Total Contributions: {totalContributions}");
+
                 // ✅ Fetch total loan amount sum (handles null values)
                 decimal totalLoanAmount = _context.CooperativeLoans.Sum(l => (decimal?)l.Loan_Amount) ?? 0;
                 ViewBag.TotalLoanAmount = totalLoanAmount;
+                Console.WriteLine($"🟢 Total Loan Amount: {totalLoanAmount}");
+
                 // ✅ Calculate Money on Hand
                 decimal moneyOnHand = totalContributions - totalLoanAmount;
                 ViewBag.MoneyOnHand = moneyOnHand;
+                Console.WriteLine($"🟢 Money on Hand: {moneyOnHand}");
 
+                // ✅ Fetch total payments sum (handles null values)
                 decimal totalPayments = _context.CooperativePayment.Sum(p => (decimal?)p.Payment_Amount) ?? 0;
                 ViewBag.TotalPayments = totalPayments;
+                Console.WriteLine($"🟢 Total Payments: {totalPayments}");
 
+                // ✅ Calculate Balance to Collect
                 decimal balanceToCollect = totalLoanAmount - totalPayments;
                 ViewBag.BalanceToCollect = balanceToCollect;
+                Console.WriteLine($"🟢 Balance to Collect: {balanceToCollect}");
 
+                // ✅ Fetch Loan Status Counts
                 int activeLoans = _context.CooperativeLoans.Count(l => l.Status == "Active");
                 ViewBag.ActiveLoans = activeLoans;
+                Console.WriteLine($"🟢 Active Loans: {activeLoans}");
 
                 int approvedLoans = _context.CooperativeLoans.Count(l => l.Status == "Approved");
                 ViewBag.ApprovedLoans = approvedLoans;
+                Console.WriteLine($"🟢 Approved Loans: {approvedLoans}");
 
                 int completedLoans = _context.CooperativeLoans.Count(l => l.Status == "Paid");
                 ViewBag.CompletedLoans = completedLoans;
+                Console.WriteLine($"🟢 Completed Loans: {completedLoans}");
+
+                // ✅ Fetch Pending Loan Count (for Notification)
+                int pendingLoans = _context.CooperativeLoans.Count(l => l.Status == "Pending");
+                ViewBag.PendingLoans = pendingLoans;
+                Console.WriteLine($"🟢 Pending Loans: {pendingLoans}");
 
             }
             catch (Exception ex)
             {
-                ViewBag.TotalMembers = "Error"; // ✅ If an error occurs, show "Error"
-                Console.WriteLine("🔴 Error fetching total members: " + ex.Message);
+                Console.WriteLine($"🔴 ERROR: {ex.Message}");
+                ViewBag.TotalMembers = "Error";
+                ViewBag.TotalContributions = "Error";
+                ViewBag.TotalLoanAmount = "Error";
+                ViewBag.MoneyOnHand = "Error";
+                ViewBag.TotalPayments = "Error";
+                ViewBag.BalanceToCollect = "Error";
+                ViewBag.ActiveLoans = "Error";
+                ViewBag.ApprovedLoans = "Error";
+                ViewBag.CompletedLoans = "Error";
+                ViewBag.PendingLoans = "Error";
             }
 
             return View();
         }
+        [HttpGet]
+        public IActionResult Dashboard()
+        {
+            try
+            {
+                Console.WriteLine("🚀 Admin Dashboard triggered!");
+
+                // ✅ Fetch count of ALL pending loans
+                int pendingLoans = _context.CooperativeLoans.Count(l => l.Status == "Pending");
+                ViewBag.PendingLoans = pendingLoans;
+                Console.WriteLine($"🟢 Pending Loans: {pendingLoans}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"🔴 ERROR: {ex.Message}");
+                ViewBag.PendingLoans = 0; // Default to 0 if an error occurs
+            }
+
+            return View();
+        }
+
 
         [HttpGet]
         public IActionResult AddMemberPage()

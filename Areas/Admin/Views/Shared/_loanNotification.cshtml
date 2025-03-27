@@ -1,0 +1,37 @@
+﻿@{
+    // Ensure PendingLoans is available for Admin
+    int pendingLoans = ViewBag.PendingLoans ?? 0;
+}
+
+<button id="admin-loans-btn" onclick="window.location.href='@Url.Action("ManageLoans", "Admin", new { area = "Admin" })'">
+    LOANS
+    @if (pendingLoans > 0)
+    {
+        <span class="notification-badge">@pendingLoans</span>
+    }
+</button>
+
+<!-- CSS for Notification Badge -->
+<style>
+    #admin-loans-btn {
+        background: #007bff;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .notification-badge {
+        background: red;
+        color: white;
+        font-size: 14px;
+        padding: 4px 8px;
+        border-radius: 50%;
+        position: absolute;
+        top: -8px;
+        right: -8px;
+    }
+</style>

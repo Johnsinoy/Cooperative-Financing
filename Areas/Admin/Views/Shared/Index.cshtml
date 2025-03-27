@@ -1,24 +1,39 @@
 ﻿@{
     ViewData["Title"] = "Admin Dashboard";
+
+    // Define URLs for different sections
     var loanTable = Url.Action("LoanTable", "Loan", new { area = "Admin" });
     var paymentTable = Url.Action("PaymentTable", "Payment", new { area = "Admin" });
     var userTable = Url.Action("UserTable", "User", new { area = "Admin" });
+
+    // Fetch the number of pending loans
+    int pendingLoans = ViewBag.PendingLoans ?? 0;
 }
 
 <!-- Link External CSS -->
 <link rel="stylesheet" href="~/css/admin-dashboard.css" asp-append-version="true" />
 
-<!-- Include Dropdown for Administrative -->
+<!-- Include Admin Header -->
 @await Html.PartialAsync("_AdminHeader")
-
 
 <!-- Dashboard Layout -->
 <div class="dashboard-container">
     <!-- Sidebar -->
     <aside class="sidebar">
         <button class="active">HOME</button>
-        <button href="@Url.Action("MemberList", "Admin")" class="members-btn">MEMBERS</button>
-        <button id="loans-btn">LOANS</button>
+        <button class="members-btn">MEMBERS</button>
+
+        <!-- Loans Button with Notification Badge -->
+        <div class="loan-section">
+            <a href="@loanTable" class="loan-button">
+                LOANS
+                @if (pendingLoans > 0)
+                {
+                    <span class="notification-badge">@pendingLoans</span>
+                }
+            </a>
+        </div>
+
         <button id="payment-btn">PAYMENTS</button>
         <button id="usertable-btn">USER</button>
     </aside>
@@ -26,131 +41,116 @@
     <!-- Main Content -->
     <main class="main-content">
         <h1 class="welcome-text">Welcome to the Admin Dashboard</h1>
+
         <section class="grid-content">
+            <!-- Total Members -->
             <div class="grid-item">
-                <span class="title">MEMBER</span> <br>
-                @if (ViewBag.TotalMembers == null)
-                {
-                    <span class="count" style="color: red;">Error: No Data</span> <!-- ✅ Shows if ViewBag is null -->
-                }
-                else
-                {
-                    <span class="count">@ViewBag.TotalMembers</span> <!-- ✅ Displays total members -->
-                }
-            </div>
-            <!-- Total Contributions -->
-            <div class="grid-item">
-                <span class="title">CONTRIBUTION</span> <br>
-                @if (ViewBag.TotalContributions is decimal totalContributions)
-                {
-                    <span class="count">$@totalContributions.ToString("N2")</span> <!-- ✅ Format as currency -->
-                }
-                else
-                {
-                    <span class="count" style="color: red;">Error: No Data</span>
-                }
+                <span class="title">MEMBER</span><br>
+                <span class="count">@(ViewBag.TotalMembers ?? "Error: No Data")</span>
             </div>
 
-            <!-- Money on Hand (Contribution - Loan Amount) -->
+            <!-- Total Contributions -->
             <div class="grid-item">
-                <span class="title">MONEY ON HAND</span> <br>
-                @if (ViewBag.MoneyOnHand is decimal moneyOnHand)
-                {
-                    <span class="count">$@moneyOnHand.ToString("N2")</span>
-                }
-                else
-                {
-                    <span class="count" style="color: red;">Error: No Data</span>
-                }
+                <span class="title">CONTRIBUTION</span><br>
+                <span class="count">$@(ViewBag.TotalContributions is decimal totalContributions ? totalContributions.ToString("N2") : "Error")</span>
             </div>
+
+            <!-- Money on Hand -->
             <div class="grid-item">
-                <span class="title">PAYMENT RECIEVED</span> <br>
-                @if (ViewBag.TotalPayments is decimal totalPayments)
-                {
-                    <span class="count">$@totalPayments.ToString("N2")</span>
-                }
-                else
-                {
-                    <span class="count" style="color: red;">Error: No Data</span>
-                }
+                <span class="title">MONEY ON HAND</span><br>
+                <span class="count">$@(ViewBag.MoneyOnHand is decimal moneyOnHand ? moneyOnHand.ToString("N2") : "Error")</span>
             </div>
+
+            <!-- Payment Received -->
             <div class="grid-item">
-                <span class="title">BALANCE TO COLLECT</span> <br>
-                @if (ViewBag.balanceToCollect is decimal balanceToCollect)
-                {
-                    <span class="count">$@balanceToCollect.ToString("N2")</span>
-                }
-                else
-                {
-                    <span class="count" style="color: red;">Error: No Data</span>
-                }
+                <span class="title">PAYMENT RECEIVED</span><br>
+                <span class="count">$@(ViewBag.TotalPayments is decimal totalPayments ? totalPayments.ToString("N2") : "Error")</span>
             </div>
+
+            <!-- Balance to Collect -->
             <div class="grid-item">
-                <span class="title">LEND MONEY</span> <br>
-                @if (ViewBag.totalLoanAmount is decimal totalLoanAmount)
-                {
-                    <span class="count">$@totalLoanAmount.ToString("N2")</span>
-                }
-                else
-                {
-                    <span class="count" style="color: red;">Error: No Data</span>
-                }
+                <span class="title">BALANCE TO COLLECT</span><br>
+                <span class="count">$@(ViewBag.BalanceToCollect is decimal balanceToCollect ? balanceToCollect.ToString("N2") : "Error")</span>
             </div>
+
+            <!-- Lend Money -->
             <div class="grid-item">
-                <span class="title">COMPLETED LOAN</span> <br>
-                @if (ViewBag.CompletedLoans is int completedLoans)
-                {
-                    <span class="count">@completedLoans</span>
-                }
-                else
-                {
-                    <span class="count" style="color: red;">Error: No Data</span>
-                }
+                <span class="title">LEND MONEY</span><br>
+                <span class="count">$@(ViewBag.TotalLoanAmount is decimal totalLoanAmount ? totalLoanAmount.ToString("N2") : "Error")</span>
             </div>
+
+            <!-- Completed Loans -->
             <div class="grid-item">
-                <span class="title">ACTIVE LOANS</span> <br>
-                @if (ViewBag.ActiveLoans is int activeLoans)
-                {
-                    <span class="count">@activeLoans</span>
-                }
-                else
-                {
-                    <span class="count" style="color: red;">Error: No Data</span>
-                }
+                <span class="title">COMPLETED LOAN</span><br>
+                <span class="count">@(ViewBag.CompletedLoans ?? "Error")</span>
             </div>
+
+            <!-- Active Loans -->
             <div class="grid-item">
-                <span class="title">APPROVED LOANS</span> <br>
-                @if (ViewBag.ApprovedLoans is int approvedLoans)
-                {
-                    <span class="count">@approvedLoans</span>
-                }
-                else
-                {
-                    <span class="count" style="color: red;">Error: No Data</span>
-                }
+                <span class="title">ACTIVE LOANS</span><br>
+                <span class="count">@(ViewBag.ActiveLoans ?? "Error")</span>
+            </div>
+
+            <!-- Approved Loans -->
+            <div class="grid-item">
+                <span class="title">APPROVED LOANS</span><br>
+                <span class="count">@(ViewBag.ApprovedLoans ?? "Error")</span>
             </div>
         </section>
     </main>
-
 </div>
 
+<!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
-    $(document).ready(function() {
-        $(".members-btn").click(function() {
+    $(document).ready(function () {
+        // Redirect to different pages on button click
+        $(".members-btn").click(function () {
             window.location.href = "@Url.Action("MemberList", "Admin")";
         });
-        // Redirect to Loan Table when clicking Loans Button
-        $("#loans-btn").click(function() {
-            window.location.href = "@loanTable";
-        });
-        // Redirect to Loan Table when clicking Loans Button
-        $("#payment-btn").click(function() {
+
+        $("#payment-btn").click(function () {
             window.location.href = "@paymentTable";
         });
-        // Redirect to Loan Table when clicking Loans Button
-        $("#usertable-btn").click(function() {
+
+        $("#usertable-btn").click(function () {
             window.location.href = "@userTable";
         });
     });
 </script>
+
+
+<!-- CSS Styling for Notification Badge -->
+<style>
+    .loan-section {
+        position: relative;
+        display: inline-block;
+    }
+
+    .loan-button {
+        background: white;
+        color: black;
+        padding: 10px 20px;
+        font-size: 16px;
+        text-decoration: none;
+        border-radius: 5px;
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        border: 2px solid #007bff;
+        font-weight: bold;
+    }
+
+    .notification-badge {
+        background: red;
+        color: white;
+        font-size: 14px;
+        padding: 4px 8px;
+        border-radius: 50%;
+        position: absolute;
+        top: 5px;
+        right: 10px;
+    }
+</style>
