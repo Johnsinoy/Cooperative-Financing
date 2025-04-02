@@ -1,27 +1,20 @@
-﻿@{
-    ViewData["Title"] = "Loans Page";
+﻿@model List<CooperativeFinancing.Models.CooperativeLoans>
 
-    // Simulated data for loans (Replace with actual data from database)
-    var loans = ViewBag.Loans as List<CooperativeFinancing.Models.CooperativeLoans> ?? new List<CooperativeFinancing.Models.CooperativeLoans>();
+@{
+    ViewData["Title"] = "Loans Page";
 
     // Loan Application URL
     var applyLoanUrl = Url.Action("LoanApplication", "Loan", new { area = "Users" });
-    // Loan Application URL
-    // ✅ Define the Home/Login URL
     var homeUrl = Url.Action("Index", "User", new { area = "Users" });
-
-
 }
 
-
 <!-- Link to External CSS -->
-<link rel="stylesheet" href="~/css/user-dashboard.css" asp-append-version="true" />
-
+<link rel="stylesheet" href="~/css/admin-dashboard.css" asp-append-version="true" />
 <div class="dashboard-container">
     <!-- Sidebar -->
     <div class="sidebar">
         <button onclick="window.location.href='@homeUrl'">HOME</button>
-        <button class=" active"'">LOANS</button>
+        <button class=" active" '">LOANS</button>
         <button>PAYMENTS</button>
         <button>Loan Calculator</button>
     </div>
@@ -48,16 +41,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (loans.Count == 0)
-                    {
+        @if (Model == null || !Model.Any())
+        {
                         <tr>
                             <td colspan="7" class="no-loans">No loans found.</td>
                         </tr>
-                    }
-                    else
-                    {
-                        @foreach (var loan in loans)
-                        {
+        }
+        else
+        {
+            foreach (var loan in Model)
+            {
                             <tr>
                                 <td>@loan.Loan_Id</td>
                                 <td>@loan.Loan_Amount.ToString("C")</td>
@@ -67,18 +60,16 @@
                                 <td>@loan.Release_Date.ToString("yyyy-MM-dd")</td>
                                 <td class="status-@(loan.Status.ToLower())">@loan.Status</td>
                             </tr>
-                        }
-                    }
+            }
+        }
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-
 <!-- CSS Styling for the Loan Page -->
 <style>
-    /* ✅ Loan Page Container */
     .loan-container {
         max-width: 1000px;
         margin: 40px auto;
@@ -89,7 +80,6 @@
         text-align: center;
     }
 
-    /* ✅ Loan Header */
     .loan-header h1 {
         font-size: 26px;
         font-weight: bold;
@@ -101,7 +91,6 @@
         font-size: 14px;
     }
 
-    /* ✅ Apply Loan Button */
     .apply-loan-btn {
         background: #007bff;
         color: white;
@@ -118,7 +107,6 @@
             background: #0056b3;
         }
 
-    /* ✅ Loan Table */
     .loan-table-container {
         margin-top: 20px;
         overflow-x: auto;
@@ -146,7 +134,6 @@
             background: #e9ecef;
         }
 
-    /* ✅ Status Styling */
     .status-approved {
         color: green;
         font-weight: bold;

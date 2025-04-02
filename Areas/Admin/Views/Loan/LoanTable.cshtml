@@ -11,6 +11,45 @@
 <link rel="stylesheet" href="~/css/admin-dashboard.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/table-list.css" asp-append-version="true" />
 
+<style>
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        z-index: 9999; /* Make sure it’s on top */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5); /* Dimmed background */
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 500px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+</style>
+
+
 <!-- Include Dropdown for Administrative -->
 @await Html.PartialAsync("_AdminHeader")
 
@@ -118,8 +157,20 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    let selectedLoanId = null;
+
+    // ✅ Close Edit Modal (Global Scope)
+    function closeEditModal() {
+        $("#editLoanModal").hide();
+    }
+
+    // ✅ Close Delete Modal (Global Scope)
+    function closeDeleteModal() {
+        $("#deleteLoanModal").hide();
+        selectedLoanId = null;
+    }
+
     $(document).ready(function () {
-        let selectedLoanId = null;
 
         // ✅ Open Edit Loan Modal
         $(document).on("click", ".edit-btn", function () {
@@ -130,6 +181,8 @@
             let term = row.find("td:eq(5)").text().trim();
             let status = row.find("td:eq(11)").text().trim();
 
+            console.log("Edit button clicked for loan ID:", loanId); // Debug log
+
             $("#editLoanId").val(loanId);
             $("#editLoanAmount").val(amount);
             $("#editLoanPurpose").val(purpose);
@@ -139,12 +192,7 @@
             $("#editLoanModal").show();
         });
 
-        // ✅ Close Edit Modal
-        function closeEditModal() {
-            $("#editLoanModal").hide();
-        }
-
-        // ✅ Update Loan via AJAX
+        // ✅ Submit Edit Loan Form via AJAX
         $("#editLoanForm").submit(function (event) {
             event.preventDefault();
             let loanId = $("#editLoanId").val().trim();
@@ -156,7 +204,13 @@
             $.ajax({
                 url: "@updateLoanUrl",
                 type: "POST",
-                data: { Loan_Id: loanId, Loan_Amount: loanAmount, Purpose_Loan: purpose, Term: term, Status: status },
+                data: {
+                    Loan_Id: loanId,
+                    Loan_Amount: loanAmount,
+                    Purpose_Loan: purpose,
+                    Term: term,
+                    Status: status
+                },
                 success: function () {
                     alert("✅ Loan updated successfully!");
                     location.reload();
@@ -167,19 +221,13 @@
             });
         });
 
-        // ✅ Open Delete Loan Modal
+        // ✅ Open Delete Modal
         $(document).on("click", ".delete-btn", function () {
             selectedLoanId = $(this).data("loan-id");
             $("#deleteLoanModal").show();
         });
 
-        // ✅ Close Delete Modal
-        function closeDeleteModal() {
-            $("#deleteLoanModal").hide();
-            selectedLoanId = null;
-        }
-
-        // ✅ Delete Loan via AJAX
+        // ✅ Confirm Delete Loan via AJAX
         $("#confirmDeleteLoan").click(function () {
             $.ajax({
                 url: "@deleteLoanUrl",
@@ -196,3 +244,4 @@
         });
     });
 </script>
+

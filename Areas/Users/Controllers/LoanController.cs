@@ -18,11 +18,24 @@ namespace CooperativeFinancing.Areas.Users.Controllers
             return View();
         }
         // ✅ Show loan application form
+        // Show loan page with the member's loan data
         [HttpGet]
         public IActionResult LoanPage()
         {
-            return View();
+            string userMemberId = HttpContext.Session.GetString("UserMemberId");
+            if (string.IsNullOrEmpty(userMemberId))
+            {
+                return RedirectToAction("Index", "Login", new { area = "" }); // Redirect to login if session is empty
+            }
+
+            // Fetch loans based on the logged-in user's Member_Id
+            var memberLoans = _context.CooperativeLoans
+                                    .Where(loan => loan.Member_Id == int.Parse(userMemberId))
+                                    .ToList();
+
+            return View(memberLoans); // Pass the list directly to the view
         }
+
 
         // ✅ Show loan application form (GET)
         [HttpGet]
